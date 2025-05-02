@@ -1,0 +1,17 @@
+[
+    {
+        "name": "BMW",
+        "strCode": "BMW",
+        "activo": true
+    },
+    {
+        "name": "KIA",
+        "strCode": "KIA",
+        "activo": true
+    },
+    {
+        "name": "SUBARU",
+        "strCode": "SUBARU",
+        "activo": true
+    }
+]

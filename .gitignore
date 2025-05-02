@@ -1,0 +1,43 @@
+# Ignorar node_modules en todos los niveles
+node_modules/
+**/node_modules/
+
+# Ignorar logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar .env y archivos de configuración sensibles
+.env
+**/.env
+
+# Ignorar dist o builds si existieran
+dist/
+**/dist/
+build/
+**/build/
+
+# Ignorar coverage de tests
+coverage/
+**/coverage/
+
+# Ignorar directorios de caché
+.cache/
+**/.cache/
+
+# Docker
+*.local
+docker-compose.override.yml
+
+# VSCode settings (opcional)
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Otros (opcional dependiendo de tu stack)
+*.tgz
+.pnpm-debug.log

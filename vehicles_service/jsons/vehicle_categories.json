@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Sports Car",
+        "strCode": "SPORTCAR",
+        "activo": true
+    },
+    {
+        "name": "Convertible",
+        "strCode": "CONVERTIBLE",
+        "activo": true
+    },
+    {
+        "name": "SUV",
+        "strCode": "SUV",
+        "activo": true
+    },
+    {
+        "name": "Sedan",
+        "strCode": "SEDAN",
+        "activo": true
+    }
+]

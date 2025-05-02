@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Automatic",
+        "strCode": "AUTOMATIC",
+        "activo": true
+    },
+    {
+        "name": "Manual",
+        "strCode": "MANUAL",
+        "activo": true
+    },
+    {
+        "name": "Semi-Automatic",
+        "strCode": "SEMIAUTOMATIC",
+        "activo": true
+    }
+]

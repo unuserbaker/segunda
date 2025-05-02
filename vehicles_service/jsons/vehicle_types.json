@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Car",
+        "strCode": "CAR",
+        "activo": true
+    },
+    {
+        "name": "Motorcycle",
+        "strCode": "MOTORCYCLE",
+        "activo": true
+    }
+]
