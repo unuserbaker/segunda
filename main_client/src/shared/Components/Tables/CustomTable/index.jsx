@@ -60,8 +60,7 @@ function TableActionComponent({
             { name, handleClick, color = 'success', disabled, loading },
             index
           ) =>
-            !disabled &&
-            !!tableBodyData.length && (
+            !disabled &&(
               <Grid item key={`HB${index}-${uuidv4()}`}>
                 <Button
                   sx={{ background: color }}

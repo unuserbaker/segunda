@@ -78,7 +78,7 @@ const vehicles = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: "vehicles",
     schema: config.schemaOne,
   }

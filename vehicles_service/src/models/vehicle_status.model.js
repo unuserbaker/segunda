@@ -26,7 +26,7 @@ const vehicleStatus = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: "vehicle_status",
     indexes: [
       {

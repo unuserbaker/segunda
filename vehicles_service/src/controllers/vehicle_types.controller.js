@@ -1,14 +1,13 @@
 const { httpError, httpSend } = require("#H/httpResponses");
-
-const vehicleTypes = require("#M/vehicle_types.model");
+const vehicleTypesService = require("#S/vehicle_types.services");
 
 exports.list = async (req, res) => {
   try {
-    const data = await vehicleTypes.findAll({});
+    const data = await vehicleTypesService.get(req.query);
 
     httpSend(
       res,
-      data.map((el) => el.toJSON()),
+      data,
       "success"
     );
   } catch (error) {

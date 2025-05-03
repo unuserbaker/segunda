@@ -5,7 +5,7 @@ const vehiclesSrv = require("#S/vehicles.services");
 
 exports.list = async (req, res) => {
   try {
-    const data = vehiclesSrv.get(req.query);
+    const data = await vehiclesSrv.get(req.query);
 
     httpSend(
       res,

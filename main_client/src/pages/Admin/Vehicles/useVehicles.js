@@ -1,25 +1,33 @@
 import { getVehicles } from '@/core/services/vehicles_service/vehicles.js';
 import { ROUTE_IDS } from '@/utils/vars';
 import EditIcon from '@mui/icons-material/Edit';
-import { createVehicle, updateVehicle } from '@/core/services/vehicles_service/vehicles.js';
+import {
+  createVehicle,
+  updateVehicle,
+} from '@/core/services/vehicles_service/vehicles.js';
 import { useState, useEffect } from 'react';
 import { useRouteLoaderData, useLoaderData } from 'react-router-dom';
 
-const formatVehiclesData = (vehicles) => {
+const formatVehiclesData = (vehicles = []) => {
   return vehicles.map((vehicle) => ({
     ...vehicle,
   }));
 };
 
 const useVehicles = () => {
-  const { vehicles, vehicleTypes, vehicleTransmissions, vehicleCategories, vehicleBrands, engineTypes } = useLoaderData();
+  const {
+    vehicles,
+    vehicleTypes,
+    vehicleTransmissions,
+    vehicleCategories,
+    vehicleBrands,
+    engineTypes,
+  } = useLoaderData();
   const { colors } = useRouteLoaderData(ROUTE_IDS.ADMIN);
 
   const [modalShow, setModalShow] = useState(null);
   const [vehicle, setVehicle] = useState(null);
-  const [vehiclesList, setVehicleList] = useState(
-    formatVehiclesData(vehicles)
-  );
+  const [vehiclesList, setVehicleList] = useState(formatVehiclesData(vehicles));
 
   const handleModal = (modalName) => {
     setModalShow(modalName);
@@ -32,17 +40,30 @@ const useVehicles = () => {
 
   const handleListVehicles = async () => {
     try {
-      const { records } = await getVehicles();
-      setVehicleList(formatVehiclesData(records || vehicles || []));
+      const { record } = await getVehicles();
+      setVehicleList(formatVehiclesData(record.rows));
     } catch (error) {
       console.log(error?.message, 'error');
     }
   };
-
   const handleSubmitVehicleCrear = async (values) => {
-  }
+    try {
+      await createVehicle(values);
+      await handleListVehicles(); // 🔄 Refrescar lista
+      handleModal(null); // Cerrar modal
+    } catch (error) {
+      console.error('Error creando vehículo:', error.message);
+    }
+  };
 
   const handleSubmitVehicleEdit = async (values) => {
+    try {
+      await updateVehicle(values.vehicle_id, values);
+      await handleListVehicles(); // 🔄 Refrescar lista
+      handleModal(null);
+    } catch (error) {
+      console.error('Error editando vehículo:', error.message);
+    }
   };
 
   const headerTable = [
@@ -54,17 +75,19 @@ const useVehicles = () => {
     { key: 'engine_type_id', name: 'Tipo de ingenieria' },
     { key: 'vehicle_type_id', name: 'Tipo de vehiculo' },
     { key: 'transmission_id', name: 'Tipo de transmision' },
-    { key: 'createdAt', name: 'Fecha creación' },
-    { key: 'updatedAt', name: 'Fecha actualización' },
+    { key: 'created_at', name: 'Fecha creación' },
+    { key: 'updated_at', name: 'Fecha actualización' },
   ];
 
-  const headerButtons = [{
-    id: 1,
-    name: 'Crear Vehiculo',
-    handleClick: () => handleModal('vehiculo-crear'),
-    color: 'primary',
-    disabled: false,
-  },];
+  const headerButtons = [
+    {
+      id: 1,
+      name: 'Crear Vehiculo',
+      handleClick: () => handleModal('vehiculo-crear'),
+      color: 'primary',
+      disabled: false,
+    },
+  ];
 
   const actionButtons = {
     title: 'Acciones',
@@ -102,6 +125,7 @@ const useVehicles = () => {
       tableBodyData: vehiclesList,
       pagination: true,
       inputFilter: true,
+      disabled: false,
     },
   };
 };

@@ -32,12 +32,12 @@ export const loader = async () => {
       getVehicleEngineTypes(),
     ]);
 
-    const vehicles = vehiclesResponse.records;
-    const vehicleTypes = vehicleTypesResponse.records;
-    const vehicleTransmissions = vehicleTransmissionsResponse.records;
-    const vehicleCategories = vehicleCategoriesResponse.records;
-    const vehicleBrands = vehicleBrandsResponse.records;
-    const engineTypes = engineTypesResponse.records;
+    const vehicles = vehiclesResponse.record.rows;
+    const vehicleTypes = vehicleTypesResponse.record.rows;
+    const vehicleTransmissions = vehicleTransmissionsResponse.record.rows;
+    const vehicleCategories = vehicleCategoriesResponse.record.rows;
+    const vehicleBrands = vehicleBrandsResponse.record.rows;
+    const engineTypes = engineTypesResponse.record.rows;
 
     return json({
       vehicles,

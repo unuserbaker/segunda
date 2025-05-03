@@ -15,7 +15,7 @@ export const getVehicles = async () => {
   }
 };
 
-export const createVehicle = async () => {
+export const createVehicle = async (dataSend) => {
   try {
     const { data } = await request(
       {
@@ -31,7 +31,7 @@ export const createVehicle = async () => {
       status: error['response']['status'],
     };
   }
-}
+};
 
 export const updateVehicle = async (usuario, dataSend) => {
   try {

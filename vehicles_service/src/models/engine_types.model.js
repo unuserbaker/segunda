@@ -26,7 +26,7 @@ const engineTypes = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: "engine_types",
     indexes: [
       {
