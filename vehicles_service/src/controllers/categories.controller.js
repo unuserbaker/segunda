@@ -1,9 +1,9 @@
 const { httpError, httpSend } = require("#H/httpResponses");
-const vehicleTransmissionsService = require("#S/vehicle_transmissions.services");
+const vehicleCategoriesService = require("#S/categories.services");
 
 exports.list = async (req, res) => {
   try {
-    const data = await vehicleTransmissionsService.get(req.query);
+    const data = await vehicleCategoriesService.get(req.query);
 
     httpSend(
       res,

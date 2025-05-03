@@ -95,7 +95,7 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             allowNull: true,
           },
-          status: {
+          status_id: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {

@@ -1,6 +1,6 @@
 const { httpError, httpSend } = require("#H/httpResponses");
 const { messages } = require("#H/utils");
-const vehicleBrandService = require("#S/vehicle_brands.services");
+const vehicleBrandService = require("#S/brands.services");
 
 exports.list = async (req, res) => {
   try {
