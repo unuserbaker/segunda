@@ -3,9 +3,9 @@ const sequelize = require("#DB/sequelize");
 const config = require("../config/index");
 
 const vehicleTransmissions = sequelize.define(
-  "vehicle_transmissions",
+  "transmissions",
   {
-    transmission_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -27,11 +27,11 @@ const vehicleTransmissions = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "vehicle_transmissions",
+    tableName: "transmissions",
     indexes: [
       {
         unique: true,
-        fields: ["transmission_id"],
+        fields: ["id"],
       },
     ],
     schema: config.schemaOne,

@@ -5,7 +5,7 @@ const config = require("../config/index");
 const engineTypes = sequelize.define(
   "engine_types",
   {
-    engine_type_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -31,7 +31,7 @@ const engineTypes = sequelize.define(
     indexes: [
       {
         unique: true,
-        fields: ["engine_type_id"],
+        fields: ["id"],
       },
     ],
     schema: config.schemaOne,

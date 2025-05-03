@@ -7,6 +7,7 @@
       "#S/*": ["./src/services/*"],
       "#H/*": ["./src/helpers/*"],
       "#C/*": ["./src/controllers/*"],
+      "#V/*": ["./src/validators/*"],
       "#MW/*": ["./src/middlewares/*"],
       "#DB/*": ["./src/db/*"],
       "#SRC/*": ["./src/*"]

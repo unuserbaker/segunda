@@ -20,31 +20,35 @@ exports.list = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const {
-      idCategory,
-      idBrand,
+      categoryId,
+      brandId,
       price,
-      milieage,
-      engineType,
-      vehicleType,
-      idTransmission,
-      idSeller,
-      status,
+      mileage,
+      engineTypeId,
+      vehicleTypeId,
+      transmissionId,
+      sellerId,
+      statusId,
     } = req.body;
+    
     const createVehicle = await vehiclesSrv.create({
-      category_id: idCategory,
-      brand_id: idBrand,
+      category_id: categoryId,
+      brand_id: brandId,
       price,
-      milieage,
-      engine_type_id: engineType,
-      vehicle_type_id: vehicleType,
-      transmission_id: idTransmission,
-      seller_id: idSeller,
-      status,
+      mileage,
+      engine_type_id: engineTypeId,
+      vehicle_type_id: vehicleTypeId,
+      transmission_id: transmissionId,
+      seller_id: sellerId,
+      status: statusId,
     });
     if (!createVehicle) throw new Error(messages.CREATE_ERROR("vehiculo"));
 
     httpSend(res, createVehicle, messages.SUCCESS);
-  } catch {
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return httpError(res, messages.DATA_DUPLICATED("vehiculo"), 409);
+    }
     httpError(res, error.message, 500);
   }
 };

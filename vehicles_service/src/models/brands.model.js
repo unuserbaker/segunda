@@ -3,9 +3,9 @@ const sequelize = require("#DB/sequelize");
 const config = require("../config/index");
 
 const vehicleBrands = sequelize.define(
-  "vehicle_brands",
+  "brands",
   {
-    brand_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -27,11 +27,11 @@ const vehicleBrands = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "vehicle_brands",
+    tableName: "brands",
     indexes: [
       {
         unique: true,
-        fields: ["brand_id"],
+        fields: ["id"],
       },
     ],
     schema: config.schemaOne,

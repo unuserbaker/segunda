@@ -58,6 +58,7 @@
     "#R/*": "./src/routes/*.js",
     "#S/*": "./src/services/*.js",
     "#C/*": "./src/controllers/*.js",
+    "#V/*": "./src/validators/*.js",
     "#MW/*": "./src/middlewares/*.js",
     "#H/*": "./src/helpers/*.js",
     "#DB/*": "./src/db/*.js",

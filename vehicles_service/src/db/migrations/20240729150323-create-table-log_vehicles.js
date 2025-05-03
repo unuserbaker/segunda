@@ -30,10 +30,14 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
           },
+          plate: {
+            type: Sequelize.DataTypes.STRING(10),
+            allowNull: false,
+          },
           engine_type_id: {
             type: Sequelize.DataTypes.INTEGER,
           },
-          vehicle_type_id: {
+          type_id: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
           },
@@ -45,7 +49,7 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             allowNull: true,
           },
-          vehicles_status_id: {
+          status_id: {
             type: Sequelize.DataTypes.INTEGER,
           },
           ...getColumsSaredLogs(Sequelize),

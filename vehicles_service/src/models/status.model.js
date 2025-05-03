@@ -2,10 +2,10 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("#DB/sequelize");
 const config = require("../config/index");
 
-const vehicleCategories = sequelize.define(
-  "vehicle_categories",
+const vehicleStatus = sequelize.define(
+  "status",
   {
-    category_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -27,15 +27,15 @@ const vehicleCategories = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "vehicle_categories",
+    tableName: "status",
     indexes: [
       {
         unique: true,
-        fields: ["category_id"],
+        fields: ["id"],
       },
     ],
     schema: config.schemaOne,
   }
 );
 
-module.exports = vehicleCategories;
+module.exports = vehicleStatus;

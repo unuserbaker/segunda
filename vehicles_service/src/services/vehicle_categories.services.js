@@ -1,6 +1,6 @@
 const { getPagination, getPagingData } = require("../../../common/utils/pagination");
 
-const vehicleCategories = require("#M/vehicle_categories.model");
+const vehicleCategories = require("#M/categories.model");
 
 exports.get = async (query) => {
   try {

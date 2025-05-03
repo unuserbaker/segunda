@@ -18,7 +18,7 @@ exports.getColumsSaredLogs = (seq) => {
       type: seq.DataTypes.STRING(60),
       allowNull: true,
     },
-    id_user: {
+    user_id: {
       type: seq.DataTypes.BIGINT,
       allowNull: true,
     },

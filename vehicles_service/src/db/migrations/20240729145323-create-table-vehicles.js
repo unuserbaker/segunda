@@ -12,7 +12,7 @@ module.exports = {
           schema: config.schemaOne,
         },
         {
-          vehicle_id: {
+          id: {
             type: Sequelize.DataTypes.UUID,
             allowNull: false,
             primaryKey: true,
@@ -23,10 +23,10 @@ module.exports = {
             allowNull: true,
             references: {
               model: {
-                tableName: "vehicle_categories",
+                tableName: "categories",
                 schema: config.schemaOne,
               },
-              key: "category_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },
@@ -35,10 +35,10 @@ module.exports = {
             allowNull: true,
             references: {
               model: {
-                tableName: "vehicle_brands",
+                tableName: "brands",
                 schema: config.schemaOne,
               },
-              key: "brand_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },
@@ -50,6 +50,11 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
           },
+          plate: {
+            type: Sequelize.DataTypes.STRING(10),
+            allowNull: false,
+            unique: true,
+          },
           engine_type_id: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
@@ -58,19 +63,19 @@ module.exports = {
                 tableName: "engine_types",
                 schema: config.schemaOne,
               },
-              key: "engine_type_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },
-          vehicle_type_id: {
+          type_id: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
               model: {
-                tableName: "vehicle_types",
+                tableName: "types",
                 schema: config.schemaOne,
               },
-              key: "vehicle_type_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },
@@ -79,10 +84,10 @@ module.exports = {
             allowNull: true,
             references: {
               model: {
-                tableName: "vehicle_transmissions",
+                tableName: "transmissions",
                 schema: config.schemaOne,
               },
-              key: "transmission_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },
@@ -90,15 +95,15 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             allowNull: true,
           },
-          vehicle_status: {
+          status: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
               model: {
-                tableName: "vehicle_status",
+                tableName: "status",
                 schema: config.schemaOne,
               },
-              key: "vehicle_status_id",
+              key: "id",
             },
             onDelete: "SET NULL",
           },

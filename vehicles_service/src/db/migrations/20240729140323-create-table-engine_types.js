@@ -12,7 +12,7 @@ module.exports = {
           schema: config.schemaOne,
         },
         {
-          engine_type_id: {
+          id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             primaryKey: true,

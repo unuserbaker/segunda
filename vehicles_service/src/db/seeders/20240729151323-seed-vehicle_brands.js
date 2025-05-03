@@ -1,5 +1,5 @@
 "use strict";
-const vehicle_brands = require("../../../jsons/vehicle_brands.json");
+const brands = require("../../../jsons/brands.json");
 const config = require("../../config/index");
 
 
@@ -7,15 +7,15 @@ const config = require("../../config/index");
 module.exports = {
   async up(queryInterface) {
     try {
-      const data = vehicle_brands.map((vehicle_brands) => ({
-        ...vehicle_brands,
+      const data = brands.map((brands) => ({
+        ...brands,
       }));
       await queryInterface.bulkInsert(
-        { tableName: "vehicle_brands", schema: config.schemaOne },
+        { tableName: "brands", schema: config.schemaOne },
         data,
         {}
       );
-      console.log("success seed vehicle_brands");
+      console.log("success seed brands");
     } catch (error) {
       console.log("error::", error.message);
     }
@@ -24,7 +24,7 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.bulkDelete(
-        { tableName: "vehicle_brands", schema: config.schemaOne },
+        { tableName: "brands", schema: config.schemaOne },
         {},
         {}
       );

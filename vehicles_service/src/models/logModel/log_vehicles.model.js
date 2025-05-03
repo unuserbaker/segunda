@@ -31,6 +31,10 @@ const LogVehicles = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    plate: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
     engine_type_id: {
       type: DataTypes.INTEGER,
     },
@@ -46,7 +50,7 @@ const LogVehicles = sequelize.define(
       type: DataTypes.UUID,
       allowNull: true,
     },
-    vehicle_status_id: {
+    status_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -54,8 +58,8 @@ const LogVehicles = sequelize.define(
       type: DataTypes.STRING(60),
       allowNull: true,
     },
-    id_user: {
-      type: DataTypes.BIGINT,
+    user_id: {
+      type: DataTypes.UUID,
       allowNull: true,
     },
     client_agent: {

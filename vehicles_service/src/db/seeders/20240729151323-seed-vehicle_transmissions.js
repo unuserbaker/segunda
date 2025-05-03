@@ -1,20 +1,20 @@
 "use strict";
-const vehicle_transmissions = require("../../../jsons/vehicle_transmissions.json");
+const transmissions = require("../../../jsons/transmissions.json");
 const config = require("../../config/index");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface) {
     try {
-      const data = vehicle_transmissions.map((vehicle_transmissions) => ({
-        ...vehicle_transmissions,
+      const data = transmissions.map((transmissions) => ({
+        ...transmissions,
       }));
       await queryInterface.bulkInsert(
-        { tableName: "vehicle_transmissions", schema: config.schemaOne },
+        { tableName: "transmissions", schema: config.schemaOne },
         data,
         {}
       );
-      console.log("success seed vehicle_transmissions");
+      console.log("success seed transmissions");
     } catch (error) {
       console.log("error::", error.message);
     }
@@ -23,7 +23,7 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.bulkDelete(
-        { tableName: "vehicle_transmissions", schema: config.schemaOne },
+        { tableName: "transmissions", schema: config.schemaOne },
         {},
         {}
       );

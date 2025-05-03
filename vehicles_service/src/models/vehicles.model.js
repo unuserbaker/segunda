@@ -5,7 +5,7 @@ const config = require("../config/index");
 const vehicles = sequelize.define(
   "vehicles",
   {
-    vehicle_id: {
+    id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
@@ -15,8 +15,8 @@ const vehicles = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "vehicle_categories",
-        key: "category_id",
+        model: "categories",
+        key: "id",
       },
       onDelete: "SET NULL",
     },
@@ -24,8 +24,8 @@ const vehicles = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "vehicle_brands",
-        key: "brand_id",
+        model: "brands",
+        key: "id",
       },
       onDelete: "SET NULL",
     },
@@ -37,21 +37,29 @@ const vehicles = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    plate: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      unique: true,
+      validate: {
+        is: /^[A-Z0-9]{1,10}$/,
+      },
+    },
     engine_type_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "engine_types",
-        key: "engine_type_id",
+        key: "id",
       },
       onDelete: "SET NULL",
     },
-    vehicle_type_id: {
+    type_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "vehicle_types",
-        key: "vehicle_type_id",
+        model: "types",
+        key: "id",
       },
       onDelete: "SET NULL",
     },
@@ -59,8 +67,8 @@ const vehicles = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "vehicle_transmissions",
-        key: "transmission_id",
+        model: "transmissions",
+        key: "id",
       },
       onDelete: "SET NULL",
     },
@@ -68,11 +76,11 @@ const vehicles = sequelize.define(
       type: DataTypes.UUID,
       allowNull: true,
     },
-    vehicle_status: {
+    status_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "vehicle_status",
-        key: "vehicle_status_id",
+        model: "status",
+        key: "id",
       },
       onDelete: "SET NULL",
     },

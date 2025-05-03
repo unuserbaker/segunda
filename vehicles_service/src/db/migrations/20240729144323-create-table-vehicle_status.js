@@ -6,9 +6,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       await queryInterface.createTable(
-        { name: "vehicle_status", tableName: "vehicle_status", schema: config.schemaOne },
+        { name: "status", tableName: "status", schema: config.schemaOne },
         {
-          vehicle_status_id: {
+          id: {
             type: Sequelize.DataTypes.INTEGER,  // Cambiado de UUID a INTEGER
             allowNull: false,
             primaryKey: true,
@@ -42,10 +42,10 @@ module.exports = {
           },
         }
       );
-      console.log("+++++++__S__U__C__C__E__S__S__++++++", "vehicle_status");
+      console.log("+++++++__S__U__C__C__E__S__S__++++++", "status");
     } catch (error) {
       console.log(
-        "E_R_R_O_R createTable MIG:: " + "vehicle_status" + " message=>",
+        "E_R_R_O_R createTable MIG:: " + "status" + " message=>",
         error.message
       );
     }
@@ -54,13 +54,13 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.dropTable({
-        tableName: "vehicle_status",
+        tableName: "status",
         schema: config.schemaOne,
       });
-      console.log("+++++++D_R_O_P++++++", "vehicle_status");
+      console.log("+++++++D_R_O_P++++++", "status");
     } catch (error) {
       console.log(
-        "error dropTable:: " + "vehicle_status" + " message==>",
+        "error dropTable:: " + "status" + " message==>",
         error.message
       );
     }
