@@ -38,7 +38,7 @@ const LogVehicles = sequelize.define(
     engine_type_id: {
       type: DataTypes.INTEGER,
     },
-    vehicle_type_id: {
+    type_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },

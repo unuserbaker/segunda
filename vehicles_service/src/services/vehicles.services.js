@@ -1,5 +1,8 @@
-const { getPagination, getPagingData } = require("../../../common/utils/pagination");
-
+const {
+  getPagination,
+  getPagingData,
+} = require("../../../common/utils/pagination");
+const { v4: uuidv4 } = require("uuid");
 const vehicles = require("#M/vehicles.model");
 
 exports.get = async (query) => {
@@ -16,13 +19,28 @@ exports.get = async (query) => {
   } catch (error) {
     throw new Error(error.message);
   }
-}
-
-exports.create = async (data) => {
+};
+exports.createOrUpdate = async (data) => {
   try {
-    const createVehicle = await vehicles.create(data);
-    return createVehicle;
+    if (!data.id) {
+      data.id = uuidv4();
+      const vehicle = await vehicles.create(data);
+      return vehicle;
+    }
+
+    // Actualizar solo los campos proporcionados
+    const [affectedRows] = await vehicles.update(data, {
+      where: { id: data.id },
+      returning: true,
+    });
+
+    if (affectedRows === 0) {
+      throw new Error("No se encontró el vehículo para actualizar.");
+    }
+
+    const updatedVehicle = await vehicles.findByPk(data.id); // Obtener el registro actualizado
+    return updatedVehicle;
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};

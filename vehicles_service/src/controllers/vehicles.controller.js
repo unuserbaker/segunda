@@ -1,6 +1,5 @@
 const { httpError, httpSend } = require("#H/httpResponses");
 const { messages } = require("#H/utils");
-
 const vehiclesSrv = require("#S/vehicles.services");
 
 exports.list = async (req, res) => {
@@ -24,24 +23,27 @@ exports.create = async (req, res) => {
       brandId,
       price,
       mileage,
+      plate,
       engineTypeId,
-      vehicleTypeId,
+      typeId,
       transmissionId,
       sellerId,
       statusId,
     } = req.body;
-    
-    const createVehicle = await vehiclesSrv.create({
+
+    const createVehicle = await vehiclesSrv.createOrUpdate({
       category_id: categoryId,
       brand_id: brandId,
       price,
       mileage,
+      plate,
       engine_type_id: engineTypeId,
-      vehicle_type_id: vehicleTypeId,
+      type_id: typeId,
       transmission_id: transmissionId,
       seller_id: sellerId,
-      status: statusId,
+      status_id: statusId,
     });
+
     if (!createVehicle) throw new Error(messages.CREATE_ERROR("vehiculo"));
 
     httpSend(res, createVehicle, messages.SUCCESS);
@@ -55,36 +57,46 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { idVehicle } = req.params;
+    const { id } = req.params;
+    
     const {
-      idCategory,
-      idBrand,
+      categoryId,
+      brandId,
       price,
-      milieage,
-      engineType,
-      vehicleType,
-      idTransmission,
-      idSeller,
+      mileage,
+      plate,
+      engineTypeId,
+      typeId,
+      transmissionId,
+      sellerId,
+      statusId,
     } = req.body;
-    const updateVehicle = await Vehicles.update(
-      {
-        category_id: idCategory,
-        brand_id: idBrand,
-        price,
-        milieage,
-        engine_type_id: engineType,
-        vehicle_type_id: vehicleType,
-        transmission_id: idTransmission,
-        seller_id: idSeller,
-      },
-      {
-        where: { vehicle_id: idVehicle },
-      }
-    );
-    if (!updateVehicle) throw new Error(messages.DATA_EDITADO("vehiculo"));
 
-    httpSend(res, updateVehicle, messages.SUCCESS);
-  } catch {
+    // Crear un objeto con los valores que no sean undefined
+    const updatedData = { id }; // Asegúrate de incluir el ID del vehículo
+
+    // Solo incluir los campos que se pasan en la solicitud
+    if (categoryId !== undefined) updatedData.category_id = categoryId;
+    if (brandId !== undefined) updatedData.brand_id = brandId;
+    if (price !== undefined) updatedData.price = price;
+    if (mileage !== undefined) updatedData.mileage = mileage;
+    if (plate !== undefined) updatedData.plate = plate;
+    if (engineTypeId !== undefined) updatedData.engine_type_id = engineTypeId;
+    if (typeId !== undefined) updatedData.type_id = typeId;
+    if (transmissionId !== undefined) updatedData.transmission_id = transmissionId;
+    if (sellerId !== undefined) updatedData.seller_id = sellerId;
+    if (statusId !== undefined) updatedData.status_id = statusId;
+
+    // Si no hay datos para actualizar, devuelve un error
+    if (Object.keys(updatedData).length === 1) { // Solo contiene el ID
+      return httpError(res, 'No se enviaron datos para actualizar.', 400);
+    }
+
+    // Realizar la actualización
+    const updatedVehicle = await vehiclesSrv.createOrUpdate(updatedData);
+
+    httpSend(res, { updated: true, vehicle: updatedVehicle }, messages.SUCCESS);
+  } catch (error) {
     httpError(res, error.message, 500);
   }
 };
