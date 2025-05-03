@@ -1,17 +1,17 @@
 [
     {
         "name": "Automatic",
-        "strCode": "AUTOMATIC",
-        "activo": true
+        "str_code": "AUTOMATIC",
+        "active": true
     },
     {
         "name": "Manual",
-        "strCode": "MANUAL",
-        "activo": true
+        "str_code": "MANUAL",
+        "active": true
     },
     {
         "name": "Semi-Automatic",
-        "strCode": "SEMIAUTOMATIC",
-        "activo": true
+        "str_code": "SEMIAUTOMATIC",
+        "active": true
     }
 ]

@@ -6,20 +6,20 @@ const vehicleBrands = sequelize.define(
   "vehicle_brands",
   {
     brand_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING(60),
       allowNull: false,
     },
-    strCode: {
+    str_code: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    activo: {
+    active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,

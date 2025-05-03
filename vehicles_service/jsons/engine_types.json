@@ -1,17 +1,17 @@
 [
     {
         "name": "Fuel",
-        "strCode": "FUEL",
-        "activo": true
+        "str_code": "FUEL",
+        "active": true
     },
     {
         "name": "Electric",
-        "strCode": "ELECTRIC",
-        "activo": true
+        "str_code": "ELECTRIC",
+        "active": true
     },
     {
         "name": "Hybrid",
-        "strCode": "HYBRIC",
-        "activo": true
+        "str_code": "HYBRIC",
+        "active": true
     }
 ]

@@ -1,12 +1,12 @@
 [
     {
         "name": "Car",
-        "strCode": "CAR",
-        "activo": true
+        "str_code": "CAR",
+        "active": true
     },
     {
         "name": "Motorcycle",
-        "strCode": "MOTORCYCLE",
-        "activo": true
+        "str_code": "MOTORCYCLE",
+        "active": true
     }
 ]

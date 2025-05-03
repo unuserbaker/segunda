@@ -16,11 +16,11 @@ const LogVehicles = sequelize.define(
       allowNull: false,
     },
     category_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     brand_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     price: {
@@ -32,40 +32,44 @@ const LogVehicles = sequelize.define(
       allowNull: false,
     },
     engine_type_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
     },
     vehicle_type_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     transmission_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     seller_id: {
       type: DataTypes.UUID,
       allowNull: true,
     },
-    ipUsuarioOperacion: {
+    vehicle_status_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    ip: {
       type: DataTypes.STRING(60),
       allowNull: true,
     },
-    idUsuarioOperacion: {
+    id_user: {
       type: DataTypes.BIGINT,
       allowNull: true,
     },
-    clientAgent: {
+    client_agent: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    tipoOperacion: {
+    operacion_type: {
       type: DataTypes.STRING(20),
       allowNull: true,
     },
   },
   {
-    createdAt: true,
-    updatedAt: false,
+    created_at: true,
+    updated_at: false,
     tableName: "log_vehicles",
     freezeTableName: true,
     schema: config.schemaTwo,

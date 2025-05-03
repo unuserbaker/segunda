@@ -9,36 +9,36 @@ module.exports = {
         { name: "vehicle_transmissions", tableName: "vehicle_transmissions", schema: config.schemaOne },
         {
           transmission_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,  // Cambiado de UUID a INTEGER
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.DataTypes.UUIDV4,
+            autoIncrement: true,  // Agregado autoIncrement para INTEGER
           },
           name: {
             type: Sequelize.DataTypes.STRING(60),
             allowNull: false,
           },
-          strCode: {
+          str_code: {
             type: Sequelize.DataTypes.STRING(50),
             allowNull: false,
           },
-          activo: {
+          active: {
             type: Sequelize.DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
           },
-          createdAt: {
-            type: Sequelize.Sequelize.DataTypes.DATE,
+          created_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "createdAt",
+            field: "created_at",
           },
-          updatedAt: {
-            type: Sequelize.Sequelize.DataTypes.DATE,
+          updated_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
             onUpdate: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "updatedAt",
+            field: "updated_at",
           },
         }
       );

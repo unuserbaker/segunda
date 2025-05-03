@@ -111,7 +111,7 @@ exports.createRecordLogs = async ({
       ...values,
     };
     // eslint-disable-next-line no-unused-vars
-    const { id, createdAt, ...data } = dataModel;
+    const { id, created_at, ...data } = dataModel;
     const { mainGlobals } = global;
 
     const dataToCreate = {

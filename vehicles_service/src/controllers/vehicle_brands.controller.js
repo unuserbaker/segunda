@@ -22,7 +22,7 @@ exports.create = async (req, res) => {
     const { name, code, status } = req.body;
     const createBrand = await Vehicles.create({
       name,
-      strCode: code,
+      str_code: code,
       status,
     });
     if (!createBrand) throw new Error(messages.CREATE_ERROR("marca"));

@@ -6,13 +6,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       await queryInterface.createTable(
-        { name: "vehicle_categories", tableName: "vehicle_categories", schema: config.schemaOne },
+        { name: "vehicle_status", tableName: "vehicle_status", schema: config.schemaOne },
         {
-          category_id: {
+          vehicle_status_id: {
             type: Sequelize.DataTypes.INTEGER,  // Cambiado de UUID a INTEGER
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true, // Agregado autoIncrement para INTEGER
+            autoIncrement: true,  // Agregado autoIncrement para INTEGER
           },
           name: {
             type: Sequelize.DataTypes.STRING(60),
@@ -42,10 +42,10 @@ module.exports = {
           },
         }
       );
-      console.log("+++++++__S__U__C__C__E__S__S__++++++", "vehicle_categories");
+      console.log("+++++++__S__U__C__C__E__S__S__++++++", "vehicle_status");
     } catch (error) {
       console.log(
-        "E_R_R_O_R createTable MIG:: " + "vehicle_categories" + " message=>",
+        "E_R_R_O_R createTable MIG:: " + "vehicle_status" + " message=>",
         error.message
       );
     }
@@ -54,13 +54,13 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.dropTable({
-        tableName: "vehicle_categories",
+        tableName: "vehicle_status",
         schema: config.schemaOne,
       });
-      console.log("+++++++D_R_O_P++++++", "vehicle_categories");
+      console.log("+++++++D_R_O_P++++++", "vehicle_status");
     } catch (error) {
       console.log(
-        "error dropTable:: " + "vehicle_categories" + " message==>",
+        "error dropTable:: " + "vehicle_status" + " message==>",
         error.message
       );
     }

@@ -10,31 +10,31 @@ exports.getColumsSaredLogs = (seq) => {
       type: seq.DataTypes.BIGINT,
       allowNull: false,
     },
-    browserId: {
+    browser_id: {
       type: seq.DataTypes.STRING,
       allowNull: true,
     },
-    ipUsuarioOperacion: {
+    ip: {
       type: seq.DataTypes.STRING(60),
       allowNull: true,
     },
-    idUsuarioOperacion: {
+    id_user: {
       type: seq.DataTypes.BIGINT,
       allowNull: true,
     },
-    clientAgent: {
+    client_agent: {
       type: seq.DataTypes.STRING,
       allowNull: true,
     },
-    tipoOperacion: {
+    operation_type: {
       type: seq.DataTypes.STRING(20),
       allowNull: true,
     },
-    createdAt: {
+    created_at: {
       type: seq.DataTypes.DATE,
       allowNull: true,
       defaultValue: seq.literal("CURRENT_TIMESTAMP"),
-      field: "createdAt",
+      field: "created_at",
     },
   };
 };

@@ -1,7 +1,6 @@
 "use strict";
 const engine_types = require("../../../jsons/engine_types.json");
 const config = require("../../config/index");
-const { v4: uuidv4 } = require("uuid");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -9,7 +8,6 @@ module.exports = {
     try {
       const data = engine_types.map((engine_types) => ({
         ...engine_types,
-        engine_type_id: uuidv4(),
       }));
       await queryInterface.bulkInsert(
         { tableName: "engine_types", schema: config.schemaOne },

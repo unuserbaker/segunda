@@ -6,7 +6,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       await queryInterface.createTable(
-        { name: "vehicles", tableName: "vehicles", schema: config.schemaOne },
+        {
+          name: "vehicles",
+          tableName: "vehicles",
+          schema: config.schemaOne,
+        },
         {
           vehicle_id: {
             type: Sequelize.DataTypes.UUID,
@@ -15,19 +19,25 @@ module.exports = {
             defaultValue: Sequelize.DataTypes.UUIDV4,
           },
           category_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
-              model: "vehicle_categories",
+              model: {
+                tableName: "vehicle_categories",
+                schema: config.schemaOne,
+              },
               key: "category_id",
             },
             onDelete: "SET NULL",
           },
           brand_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
-              model: "vehicle_brands",
+              model: {
+                tableName: "vehicle_brands",
+                schema: config.schemaOne,
+              },
               key: "brand_id",
             },
             onDelete: "SET NULL",
@@ -41,28 +51,37 @@ module.exports = {
             allowNull: false,
           },
           engine_type_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
-              model: "engine_types",
+              model: {
+                tableName: "engine_types",
+                schema: config.schemaOne,
+              },
               key: "engine_type_id",
             },
             onDelete: "SET NULL",
           },
           vehicle_type_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
-              model: "vehicle_types",
+              model: {
+                tableName: "vehicle_types",
+                schema: config.schemaOne,
+              },
               key: "vehicle_type_id",
             },
             onDelete: "SET NULL",
           },
           transmission_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
             references: {
-              model: "vehicle_transmissions",
+              model: {
+                tableName: "vehicle_transmissions",
+                schema: config.schemaOne,
+              },
               key: "transmission_id",
             },
             onDelete: "SET NULL",
@@ -71,18 +90,30 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             allowNull: true,
           },
-          createdAt: {
-            type: Sequelize.DataTypes.DATE,
+          vehicle_status: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+              model: {
+                tableName: "vehicle_status",
+                schema: config.schemaOne,
+              },
+              key: "vehicle_status_id",
+            },
+            onDelete: "SET NULL",
+          },
+          created_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "createdAt",
+            field: "created_at",
           },
-          updatedAt: {
-            type: Sequelize.DataTypes.DATE,
+          updated_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
             onUpdate: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "updatedAt",
+            field: "updated_at",
           },
         }
       );

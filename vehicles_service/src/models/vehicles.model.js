@@ -12,7 +12,7 @@ const vehicles = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
     },
     category_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "vehicle_categories",
@@ -21,7 +21,7 @@ const vehicles = sequelize.define(
       onDelete: "SET NULL",
     },
     brand_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "vehicle_brands",
@@ -38,7 +38,7 @@ const vehicles = sequelize.define(
       allowNull: false,
     },
     engine_type_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "engine_types",
@@ -47,7 +47,7 @@ const vehicles = sequelize.define(
       onDelete: "SET NULL",
     },
     vehicle_type_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "vehicle_types",
@@ -56,7 +56,7 @@ const vehicles = sequelize.define(
       onDelete: "SET NULL",
     },
     transmission_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: "vehicle_transmissions",
@@ -68,7 +68,14 @@ const vehicles = sequelize.define(
       type: DataTypes.UUID,
       allowNull: true,
     },
-    //pendiente status
+    vehicle_status: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "vehicle_status",
+        key: "vehicle_status_id",
+      },
+      onDelete: "SET NULL",
+    },
   },
   {
     timestamps: true,

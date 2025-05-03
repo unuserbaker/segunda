@@ -6,39 +6,43 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       await queryInterface.createTable(
-        { name: "engine_types", tableName: "engine_types", schema: config.schemaOne },
+        {
+          name: "engine_types",
+          tableName: "engine_types",
+          schema: config.schemaOne,
+        },
         {
           engine_type_id: {
-            type: Sequelize.Sequelize.DataTypes.UUID,
+            type: Sequelize.INTEGER,
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.Sequelize.DataTypes.UUIDV4,
+            autoIncrement: true,
           },
           name: {
-            type: Sequelize.Sequelize.DataTypes.STRING(60),
+            type: Sequelize.STRING(60),
             allowNull: false,
           },
-          strCode: {
-            type: Sequelize.Sequelize.DataTypes.STRING(50),
+          str_code: {
+            type: Sequelize.STRING(50),
             allowNull: false,
           },
-          activo: {
-            type: Sequelize.Sequelize.DataTypes.BOOLEAN,
+          active: {
+            type: Sequelize.BOOLEAN,
             allowNull: false,
             defaultValue: false,
           },
-          createdAt: {
-            type: Sequelize.Sequelize.Sequelize.DataTypes.DATE,
+          created_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "createdAt",
+            field: "created_at",
           },
-          updatedAt: {
-            type: Sequelize.Sequelize.Sequelize.DataTypes.DATE,
+          updated_at: {
+            type: Sequelize.DATE,
             allowNull: true,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
             onUpdate: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "updatedAt",
+            field: "updated_at",
           },
         }
       );

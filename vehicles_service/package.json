@@ -12,7 +12,7 @@
     "migration:up": "npx sequelize-cli db:migrate",
     "seed:generate": "node ./scripts/seed_create.js",
     "seed:up": "node ./scripts/seed_up.js",
-    "seed:up:all": "npx sequelize db:seed:all"
+    "seed:up:all": "npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",

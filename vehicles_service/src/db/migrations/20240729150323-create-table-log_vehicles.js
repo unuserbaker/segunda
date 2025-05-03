@@ -15,11 +15,11 @@ module.exports = {
         },
         {
           category_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
           },
           brand_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
           },
           price: {
@@ -31,19 +31,22 @@ module.exports = {
             allowNull: false,
           },
           engine_type_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
           },
           vehicle_type_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
           },
           transmission_id: {
-            type: Sequelize.DataTypes.UUID,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: true,
           },
           seller_id: {
             type: Sequelize.DataTypes.UUID,
             allowNull: true,
+          },
+          vehicles_status_id: {
+            type: Sequelize.DataTypes.INTEGER,
           },
           ...getColumsSaredLogs(Sequelize),
         }

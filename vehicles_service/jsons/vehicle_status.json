@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Active",
+        "str_code": "ACTIVE",
+        "active": true
+    },
+    {
+        "name": "Canceled",
+        "str_code": "CANCELED",
+        "active": true
+    }
+]

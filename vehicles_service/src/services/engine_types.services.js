@@ -9,7 +9,7 @@ exports.get = async (query) => {
     let allRecords = await engineTypes.findAndCountAll({
       limit,
       offset,
-      order: [["createdAt", "DESC"]],
+      order: [["created_at", "DESC"]],
     });
     allRecords = getPagingData(allRecords, offset, limit);
     return allRecords;
