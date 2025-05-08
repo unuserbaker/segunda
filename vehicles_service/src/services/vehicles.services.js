@@ -17,7 +17,7 @@ exports.get = async (query) => {
     allRecords = getPagingData(allRecords, offset, limit);
     return allRecords;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 };
 exports.createOrUpdate = async (data) => {
@@ -41,6 +41,6 @@ exports.createOrUpdate = async (data) => {
     const updatedVehicle = await vehicles.findByPk(data.id); // Obtener el registro actualizado
     return updatedVehicle;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 };
