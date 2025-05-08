@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import {
@@ -14,8 +14,6 @@ import {
     Menu,
 } from '@mui/material';
 
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -195,7 +193,7 @@ const menuItems = [
     },
 ];
 
-const LandingLayout = ({ topBackGround = 'primary', TopTitle = 'Motodeal' }) => {
+const LandingLayout = ({ TopTitle = 'Segunda' }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openMenu, setOpenMenu] = useState(null);
     const navigate = useNavigate();
@@ -219,20 +217,20 @@ const LandingLayout = ({ topBackGround = 'primary', TopTitle = 'Motodeal' }) => 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <AccessTimeIcon fontSize='small' />
                         <Typography variant="caption">
-                            Monday-Saturday 7:00AM - 6:00PM
+                            Lunes-Sabado 7:00AM - 6:00PM
                         </Typography>
                         <LocationOnIcon fontSize='small' />
                         <Typography variant="caption">
-                            1105 Roosevelt Street, CA
+                            Kr 20 #88-20, Bogotá, Colombia
                         </Typography>
                         <Box sx={{ ml: '160px', display: 'flex', bgcolor: 'white', height: '70px', alignItems: 'center', gap: 2 }}>
                             <Button variant='text'>
                                 <PhoneIcon fontSize='small' sx={{ color: 'red' }} />
                                 <Typography variant="caption" sx={{ color: 'red' }}>
-                                    095
+                                    +57
                                 </Typography>
                                 <Typography variant="caption" sx={{ color: 'black' }}>
-                                    1856 558
+                                    3016805793
                                 </Typography>
                             </Button>
                         </Box>
@@ -242,7 +240,7 @@ const LandingLayout = ({ topBackGround = 'primary', TopTitle = 'Motodeal' }) => 
                 <Toolbar sx={{ justifyContent: 'center', mt: '1px' }}>
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', ml: 5, cursor: 'pointer' }}
                         onClick={() => navigate('/')}>
-                        <img src="/img/for-bike.png" alt="Motodeal Logo" style={{ marginRight: '10px' }} />
+                        <img src="/img/for-bike.png" alt="Segunda Logo" style={{ marginRight: '10px' }} />
                         <Typography
                             variant="h6"
                         >
@@ -253,7 +251,7 @@ const LandingLayout = ({ topBackGround = 'primary', TopTitle = 'Motodeal' }) => 
                         {menuItems.map((item) => (
                             <Box key={item.id} sx={{ display: 'inline-block', margin: '0 10px' }}>
                                 <Button
-                                    onClick={(e) => navigate(item.to)}
+                                    onClick={() => navigate(item.to)}
                                     onMouseMove={(e) => item.children && handleMenuOpen(e, item.id)}
                                 >
                                     <Typography variant='body2' sx={{ color: item.color, fontWeight: 'bold' }}>

@@ -1,7 +1,7 @@
 import API_VEHICLES from '@/core/api/vehicles_api.js';
 import { request } from '@/core/axios';
 
-export const getVehicleTransmissions = async () => {
+export const getTransmissions = async () => {
   try {
     const { data } = await request({
       url: API_VEHICLES.TRANSMISSIONS.GET_TRANSMISSIONS,

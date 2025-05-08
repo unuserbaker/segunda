@@ -3,48 +3,53 @@ import { json } from 'react-router-dom';
 
 import useVehicles from './useVehicles.js';
 import TableActionComponent from '@/shared/Components/Tables/CustomTable';
-import { getVehicles } from "@/core/services/vehicles_service/vehicles.js";
+import { getVehicles } from '@/core/services/vehicles_service/vehicles.js';
 import { throwErrorPage } from '@/utils/functions';
 import CustomModal from '@/shared/Components/Modal/CustomModal/index.jsx';
-import FormCreate from './Forms/index.jsx';
-import { getVehicleTypes } from '@/core/services/vehicles_service/type.js';
-import { getVehicleTransmissions } from '@/core/services/vehicles_service/transmissions.js';
-import { getVehicleCategories } from '@/core/services/vehicles_service/categories.js';
-import { getVehicleBrands } from '@/core/services/vehicles_service/brands.js';
-import { getVehicleEngineTypes } from '@/core/services/vehicles_service/engine_types.js';
+import FormVehicle from './Forms/index.jsx';
+import { getTypes } from '@/core/services/vehicles_service/type.js';
+import { getTransmissions } from '@/core/services/vehicles_service/transmissions.js';
+import { getCategories } from '@/core/services/vehicles_service/categories.js';
+import { getBrands } from '@/core/services/vehicles_service/brands.js';
+import { getEngineTypes } from '@/core/services/vehicles_service/engine_types.js';
+import { getStatus } from '@/core/services/vehicles_service/status.js';
 import TitleText from '@/shared/Components/Others/TitleText';
 
 export const loader = async () => {
   try {
     const [
       vehiclesResponse,
-      vehicleTypesResponse,
-      vehicleTransmissionsResponse,
-      vehicleCategoriesResponse,
-      vehicleBrandsResponse,
+      typesResponse,
+      transmissionsResponse,
+      categoriesResponse,
+      brandsResponse,
+      statusResponse,
       engineTypesResponse,
     ] = await Promise.all([
       getVehicles(),
-      getVehicleTypes(),
-      getVehicleTransmissions(),
-      getVehicleCategories(),
-      getVehicleBrands(),
-      getVehicleEngineTypes(),
+      getTypes(),
+      getTransmissions(),
+      getCategories(),
+      getBrands(),
+      getStatus(),
+      getEngineTypes(),
     ]);
 
     const vehicles = vehiclesResponse.record.rows;
-    const vehicleTypes = vehicleTypesResponse.record.rows;
-    const vehicleTransmissions = vehicleTransmissionsResponse.record.rows;
-    const vehicleCategories = vehicleCategoriesResponse.record.rows;
-    const vehicleBrands = vehicleBrandsResponse.record.rows;
+    const types = typesResponse.record.rows;
+    const transmissions = transmissionsResponse.record.rows;
+    const categories = categoriesResponse.record.rows;
+    const brands = brandsResponse.record.rows;
+    const status = statusResponse.record.rows;
     const engineTypes = engineTypesResponse.record.rows;
 
     return json({
       vehicles,
-      vehicleTypes,
-      vehicleTransmissions,
-      vehicleCategories,
-      vehicleBrands,
+      types,
+      transmissions,
+      categories,
+      brands,
+      status,
       engineTypes,
     });
   } catch (error) {
@@ -59,10 +64,11 @@ const VehiclesPage = () => {
     vehicle,
     modalShow,
     colors,
-    vehicleTypes,
-    vehicleTransmissions,
-    vehicleCategories,
-    vehicleBrands,
+    types,
+    transmissions,
+    categories,
+    brands,
+    status,
     engineTypes,
     handleModal,
     handleSubmitVehicleCrear,
@@ -89,24 +95,30 @@ const VehiclesPage = () => {
         onClose={() => handleModal(null)}
         title={'Crear vehiculo'}
       >
-        <FormCreate
-          vehicle={vehicle}
+        <FormVehicle
           onSubmit={handleSubmitVehicleCrear}
-          vehicleTypes={vehicleTypes}
-          vehicleTransmissions={vehicleTransmissions}
-          vehicleCategories={vehicleCategories}
-          vehicleBrands={vehicleBrands}
+          types={types}
+          transmissions={transmissions}
+          categories={categories}
+          brands={brands}
           engineTypes={engineTypes}
+          status={status}
         />
       </CustomModal>
       <CustomModal
         open={modalShow === 'Editar'}
-        onClose={() => handleModal(data)}
+        onClose={() => handleModal(null)}
         title={'Editar vehiculo'}
       >
-        <FormCreate
+        <FormVehicle
           vehicle={vehicle}
           onSubmit={handleSubmitVehicleEdit}
+          types={types}
+          transmissions={transmissions}
+          categories={categories}
+          brands={brands}
+          engineTypes={engineTypes}
+          status={status}
         />
       </CustomModal>
     </section>

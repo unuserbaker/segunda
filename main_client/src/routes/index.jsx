@@ -17,7 +17,7 @@ const landingRoutes = {
     element: (
         <LandingLayout
             topBackGround="primary"
-            TopTitle={'Motodeal'}
+            TopTitle={'Segunda'}
         />
     ),
     children: [

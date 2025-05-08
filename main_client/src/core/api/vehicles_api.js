@@ -5,6 +5,7 @@ const API_VEHICLES = {
   CATEGORIES: { GET_CATEGORIES: '/vehicles/categories' },
   BRANDS: { GET_BRANDS: '/vehicles/brands' },
   ENGINE_TYPES: { GET_ENGINE_TYPES: '/vehicles/engine_types' },
+  STATUS: { GET_SATUS: '/vehicles/status' },
 };
 
 export default API_VEHICLES;

@@ -1,12 +1,11 @@
-import { Form, Formik, ErrorMessage } from 'formik';
+import { Form, Formik } from 'formik';
 import useCreateVehicle from './useCreateVehicle.jsx';
-import { Alert, CircularProgress, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import CustomTextField from '@/shared/Components/Inputs/CustomTextfield';
-import { useEffect } from 'react';
 import CustomSelect from '@/shared/Components/Inputs/CustomSelect';
 import CustomButton from '@/shared/Components/Inputs/CustomButton';
 
-const FormCreate = ({ vehicle, onSubmit, vehicleTypes, vehicleTransmissions, vehicleCategories, vehicleBrands, engineTypes }) => {
+const FormVehicle = ({ vehicle, onSubmit, types, transmissions, categories, brands, engineTypes, status }) => {
   const {
     initialValues,
     validationSchema,
@@ -22,7 +21,7 @@ const FormCreate = ({ vehicle, onSubmit, vehicleTypes, vehicleTransmissions, veh
         await onSubmit(values);
       }}
     >
-      {({ handleChange, values, errors, setFieldValue }) => {
+      {({ handleChange, values, errors }) => {
         return (
           <Form>
             <Grid
@@ -35,97 +34,123 @@ const FormCreate = ({ vehicle, onSubmit, vehicleTypes, vehicleTransmissions, veh
                 <CustomSelect
                   labelId="Tipo del vehiculo"
                   label="Tipo del vehiculo"
-                  id="vehicleType"
-                  name="vehicleType"
-                  value={values.vehicleType}
+                  id="typeId"
+                  name="typeId"
+                  value={values.typeId}
                   onChange={handleChange}
-                  options={vehicleTypes.map(({ vehicle_type_id, name }) => ({
-                    value: vehicle_type_id,
+                  options={types.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
-                  error={!!errors.vehicleType}
+                  error={!!errors.typeId}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomSelect
                   labelId="Tipo de transmision"
                   label="Tipo de transmision"
-                  id="idTransmission"
-                  name="idTransmission"
-                  value={values.idTransmission}
+                  id="transmissionId"
+                  name="transmissionId"
+                  value={values.transmissionId}
                   onChange={handleChange}
-                  options={vehicleTransmissions.map(({ transmission_id, name }) => ({
-                    value: transmission_id,
+                  options={transmissions.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
-                  error={!!errors.idTransmission}
+                  error={!!errors.transmissionId}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomSelect
                   labelId="Categoria del vehiculo"
                   label="Categoria del vehiculo"
-                  id="idCategory"
-                  name="idCategory"
-                  value={values.idCategory}
+                  id="categoryId"
+                  name="categoryId"
+                  value={values.categoryId}
                   onChange={handleChange}
-                  options={vehicleCategories.map(({ category_id, name }) => ({
-                    value: category_id,
+                  options={categories.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
-                  error={!!errors.idCategory}
+                  error={!!errors.categoryId}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomSelect
                   labelId="Marcas"
                   label="Marcas"
-                  id="idBrand"
-                  name="idBrand"
-                  value={values.idBrand}
+                  id="brandId"
+                  name="brandId"
+                  value={values.brandId}
                   onChange={handleChange}
-                  options={vehicleBrands.map(({ brand_id, name }) => ({
-                    value: brand_id,
+                  options={brands.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
-                  error={!!errors.idBrand}
+                  error={!!errors.brandId}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomSelect
                   labelId="Tipo de Ingenieria"
                   label="Tipo de Ingenieria"
-                  id="engineType"
-                  name="engineType"
-                  value={values.engineType}
+                  id="engineTypeId"
+                  name="engineTypeId"
+                  value={values.engineTypeId}
                   onChange={handleChange}
-                  options={engineTypes.map(({ engine_type_id, name }) => ({
-                    value: engine_type_id,
+                  options={engineTypes.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
-                  error={!!errors.engineType}
+                  error={!!errors.engineTypeId}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomTextField
                   label="Kilometraje"
-                  name="milieage"
+                  name="mileage"
                   type="text"
-                  error={!!errors.milieage}
-                  value={values.milieage}
+                  error={!!errors.mileage}
+                  value={values.mileage}
                   onChange={handleChange}
                   fullWidth
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomTextField
-                  label="precio"
+                  label="Placa"
+                  name="plate"
+                  type="text"
+                  error={!!errors.plate}
+                  value={values.plate}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextField
+                  label="price"
                   name="price"
                   type="text"
                   error={!!errors.price}
                   value={values.price}
                   onChange={handleChange}
                   fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomSelect
+                  labelId="Estado"
+                  label="Estado"
+                  id="statusId"
+                  name="statusId"
+                  value={values.statusId}
+                  onChange={handleChange}
+                  options={status.map(({ id, name }) => ({
+                    value: id,
+                    label: name,
+                  }))}
+                  error={!!errors.statusId}
                 />
               </Grid>
 
@@ -159,4 +184,4 @@ const FormCreate = ({ vehicle, onSubmit, vehicleTypes, vehicleTransmissions, veh
   );
 };
 
-export default FormCreate; 
+export default FormVehicle; 

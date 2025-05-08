@@ -6,10 +6,11 @@ const routerApi = (app) => {
 
   // Privadas
   app.use("/engine_types", indexRoutes.engineTypesRouter);
-  app.use("/brands", indexRoutes.vehicleBrandsRouter);
-  app.use("/categories", indexRoutes.vehicleCategoriesRouter);
-  app.use("/transmissions", indexRoutes.vehicleTransmissionsRouter);
-  app.use("/types", indexRoutes.vehicleTypesRouter);
+  app.use("/brands", indexRoutes.brandsRouter);
+  app.use("/categories", indexRoutes.categoriesRouter);
+  app.use("/transmissions", indexRoutes.transmissionsRouter);
+  app.use("/types", indexRoutes.typesRouter);
+  app.use("/status", indexRoutes.statusRouter);
   app.use("/vehicles", indexRoutes.vehiclesRouter);
 };
 module.exports = routerApi;

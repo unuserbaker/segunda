@@ -5,7 +5,7 @@ import {
   createVehicle,
   updateVehicle,
 } from '@/core/services/vehicles_service/vehicles.js';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouteLoaderData, useLoaderData } from 'react-router-dom';
 
 const formatVehiclesData = (vehicles = []) => {
@@ -17,10 +17,11 @@ const formatVehiclesData = (vehicles = []) => {
 const useVehicles = () => {
   const {
     vehicles,
-    vehicleTypes,
-    vehicleTransmissions,
-    vehicleCategories,
-    vehicleBrands,
+    types,
+    transmissions,
+    categories,
+    brands,
+    status,
     engineTypes,
   } = useLoaderData();
   const { colors } = useRouteLoaderData(ROUTE_IDS.ADMIN);
@@ -31,11 +32,6 @@ const useVehicles = () => {
 
   const handleModal = (modalName) => {
     setModalShow(modalName);
-  };
-
-  const handleDataVehicle = (data = null) => {
-    setVehicle(data);
-    handleModal('vehicle');
   };
 
   const handleListVehicles = async () => {
@@ -58,7 +54,7 @@ const useVehicles = () => {
 
   const handleSubmitVehicleEdit = async (values) => {
     try {
-      await updateVehicle(values.vehicle_id, values);
+      await updateVehicle(values.id, values);
       await handleListVehicles(); // 🔄 Refrescar lista
       handleModal(null);
     } catch (error) {
@@ -67,14 +63,16 @@ const useVehicles = () => {
   };
 
   const headerTable = [
-    { key: 'vehicle_id', name: 'ID Vehiculo' },
+    { key: 'id', name: 'ID Vehiculo' },
     { key: 'category_id', name: 'Categoria' },
     { key: 'brand_id', name: 'Marca' },
     { key: 'price', name: 'Precio' },
     { key: 'mileage', name: 'Kilometraje' },
+    { key: 'plate', name: 'Placa' },
     { key: 'engine_type_id', name: 'Tipo de ingenieria' },
-    { key: 'vehicle_type_id', name: 'Tipo de vehiculo' },
+    { key: 'type_id', name: 'Tipo de vehiculo' },
     { key: 'transmission_id', name: 'Tipo de transmision' },
+    { key: 'status_id', name: 'Estado' },
     { key: 'created_at', name: 'Fecha creación' },
     { key: 'updated_at', name: 'Fecha actualización' },
   ];
@@ -109,10 +107,11 @@ const useVehicles = () => {
     vehicle,
     modalShow,
     colors,
-    vehicleTypes,
-    vehicleTransmissions,
-    vehicleCategories,
-    vehicleBrands,
+    types,
+    transmissions,
+    categories,
+    brands,
+    status,
     engineTypes,
     handleListVehicles,
     handleModal,

@@ -1,10 +1,10 @@
 import API_VEHICLES from '@/core/api/vehicles_api.js';
 import { request } from '@/core/axios';
 
-export const getCategories = async () => {
+export const getStatus = async () => {
   try {
     const { data } = await request({
-      url: API_VEHICLES.CATEGORIES.GET_CATEGORIES,
+      url: API_VEHICLES.STATUS.GET_SATUS,
     });
     return data;
   } catch (error) {
