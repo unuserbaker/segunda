@@ -5,4 +5,17 @@ const router = Router();
 
 router.get("/", vehicleCategoriesController.list);
 
+/**
+ * @swagger
+ * /categories:
+ *   get:
+ *     summary: Obtiene todos las categorias de vehículo
+ *     tags:
+ *       - categories
+ *     responses:
+ *       200:
+ *         description: Lista de categorias de vehículo
+ */
+
+
 module.exports = router;

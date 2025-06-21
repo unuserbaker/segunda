@@ -20,6 +20,19 @@ const createVehicleValidation = [
   },
 ];
 
+const updateVehicleValidation = [
+  body('categoryId').optional().isInt().withMessage('categoryId debe ser un número entero'),
+  body('brandId').optional().isInt().withMessage('brandId debe ser un número entero'),
+  body('price').optional().isFloat({ gt: 0 }).withMessage('price debe ser un número positivo'),
+  body('mileage').optional().isInt({ min: 0 }).withMessage('mileage debe ser un número entero positivo'),
+  body('plate').optional().isString().matches(/^[A-Z0-9]{1,10}$/).withMessage('plate debe ser una cadena de texto'),
+  body('engineTypeId').optional().isInt().withMessage('engineTypeId es requerido'),
+  body('typeId').optional().isInt().withMessage('typeId es requerido'),
+  body('transmissionId').optional().isInt().withMessage('transmissionId es requerido'),
+  body('sellerId').optional().isUUID().withMessage('sellerId debe ser un uuid válido'),
+];
+
 module.exports = {
   createVehicleValidation,
+  updateVehicleValidation
 };

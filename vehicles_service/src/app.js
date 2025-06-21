@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const routerApi = require("#R/_index");
@@ -24,6 +26,8 @@ app.use(helmet());
 app.use(useragent.express());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", async (req, res) => {
   res.send("vehicles_service");
