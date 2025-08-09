@@ -1,4 +1,4 @@
-const { httpError, httpSend } = require("#H/httpResponses");
+const { httpError, httpSend } = require("../../../common/utils/httpResponses");
 const { messages } = require("#H/utils");
 const vehiclesSrv = require("#S/vehicles.services");
 

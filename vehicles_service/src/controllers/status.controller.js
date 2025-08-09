@@ -1,4 +1,4 @@
-const { httpError, httpSend } = require("#H/httpResponses");
+const { httpError, httpSend } = require("../../../common/utils/httpResponses");
 const statusService = require("#S/status.services");
 
 exports.list = async (req, res) => {

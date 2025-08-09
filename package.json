@@ -18,14 +18,16 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev:gateway": "npm run dev --workspaces gateway",
+    "dev:gateway": "npm run dev --workspaces gateway_service",
     "dev:vehicles": "npm run dev --prefix vehicles_service",
-    "dev:client": "npm run dev --prefix main_client"
+    "dev:client": "npm run dev --prefix main_client",
+    "dev:auth": "npm run dev --prefix auth_service"
   },
   "workspaces": [
-    "gateway",
+    "gateway_service",
     "vehicles_service",
-    "main_client"
+    "main_client",
+    "auth_service"
   ],
   "prefix": "2da",
   "private": true,
