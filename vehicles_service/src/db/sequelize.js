@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
   {
     // timezone: config.tz,
     host: config.host,
+    port: config.port,
     dialect: config.dialect,
     define: {
       charset: "utf-8",

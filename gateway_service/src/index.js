@@ -3,7 +3,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-app.use('/vehicles', createProxyMiddleware({ target: 'http://localhost:3005', changeOrigin: true }));
+const VEHICLES_URL = process.env.VEHICLES_SERVICE_URL || 'http://localhost:3005';
+app.use('/vehicles', createProxyMiddleware({ target: VEHICLES_URL, changeOrigin: true }));
 
 // Configuración de seguridad
 app.use((req, res, next) => {
