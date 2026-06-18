@@ -60,6 +60,7 @@ export const loader = async () => {
   }
 };
 const VehiclesPage = () => {
+  console.log('Renderizando VehiclesPage...');
   const {
     vehicle,
     modalShow,
@@ -75,6 +76,18 @@ const VehiclesPage = () => {
     handleSubmitVehicleEdit,
     table,
   } = useVehicles();
+  console.log('Datos cargados:', {
+    vehicle,
+    modalShow,
+    colors,
+    types,
+    transmissions,
+    categories,
+    brands,
+    status,
+    engineTypes,
+    table,
+  });
   return (
     <section>
       <Box>

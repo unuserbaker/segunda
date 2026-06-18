@@ -3,9 +3,11 @@ import { request } from '@/core/axios';
 
 export const getVehicles = async () => {
   try {
+    console.log('Obteniendo vehículos...');
     const { data } = await request({
       url: API_VEHICLES.VEHICLES.GET_VEHICLES,
     });
+    console.log('Vehículos obtenidos:', data);
     return data;
   } catch (error) {
     throw {

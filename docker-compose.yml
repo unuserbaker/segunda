@@ -8,42 +8,42 @@ version: '3.9'
 services:
 
   # ── API Gateway ────────────────────────────
-  gateway:
-    build:
-      context: ./gateway_service
-    container_name: gateway
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      VEHICLES_SERVICE_URL: http://vehicles:3005
-    depends_on:
-      - vehicles
-    networks:
-      - backend
+  # gateway:
+  #   build:
+  #     context: ./gateway_service
+  #   container_name: gateway
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NODE_ENV: production
+  #     VEHICLES_SERVICE_URL: http://vehicles:3005
+  #   depends_on:
+  #     - vehicles
+  #   networks:
+  #     - backend
 
   # ── Vehicles Microservice ──────────────────
-  vehicles:
-    build:
-      context: ./vehicles_service
-    container_name: vehicles_service
-    ports:
-      - "3005:3005"
-    environment:
-      NODE_ENV: production
-      PORT_APP: 3005
-      DB_HOST: vehicles_db       # nombre del contenedor de su propia BD
-      DB_PORT: 5432
-      DB_DIALECT: postgres
-      DB_NAME: vehicles_db
-      DB_USER: vehicles_user
-      PGPASSWORD: vehicles_pass
-      DB_SCHEMA_ONE: public
-    depends_on:
-      vehicles_db:
-        condition: service_healthy
-    networks:
-      - backend
+  # vehicles:
+  #   build:
+  #     context: ./vehicles_service
+  #   container_name: vehicles_service
+  #   ports:
+  #     - "3005:3005"
+  #   environment:
+  #     NODE_ENV: production
+  #     PORT_APP: 3005
+  #     DB_HOST: vehicles_db       # nombre del contenedor de su propia BD
+  #     DB_PORT: 5432
+  #     DB_DIALECT: postgres
+  #     DB_NAME: vehicles_db
+  #     DB_USER: vehicles_user
+  #     PGPASSWORD: vehicles_pass
+  #     DB_SCHEMA_ONE: public
+  #   depends_on:
+  #     vehicles_db:
+  #       condition: service_healthy
+  #   networks:
+  #     - backend
 
   # ── PostgreSQL exclusiva de vehicles ───────
   vehicles_db:
