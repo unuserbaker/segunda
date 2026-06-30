@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Brand } from '../modules/vehicle/domain/entities/brand.entity';
-import { Category } from '../modules/vehicle/domain/entities/category.entity';
-import { Status } from '../modules/vehicle/domain/entities/status.entity';
-import { EngineType } from '../modules/vehicle/domain/entities/engine_type.entity';
-import { Transmission } from '../modules/vehicle/domain/entities/transmission.entity';
-import { Type } from '../modules/vehicle/domain/entities/type.entity';
+import { Brand } from '../modules/vehicle/entities/brand.entity';
+import { Category } from '../modules/vehicle/entities/category.entity';
+import { Status } from '../modules/vehicle/entities/status.entity';
+import { EngineType } from '../modules/vehicle/entities/engine_type.entity';
+import { Transmission } from '../modules/vehicle/entities/transmission.entity';
+import { Type } from '../modules/vehicle/entities/type.entity';
 
 @Injectable()
 export class SeedService {
@@ -20,6 +20,9 @@ export class SeedService {
   ) {}
 
   async seedBrands() {
+    const count = await this.brandRepo.count();
+    if (count > 0) return;
+
     const brands = [
       { name: 'Toyota', str_code: 'TOY', active: true },
       { name: 'Mazda', str_code: 'MAZ', active: true },
@@ -30,6 +33,9 @@ export class SeedService {
   }
 
   async seedCategories() {
+    const count = await this.categoryRepo.count();
+    if (count > 0) return;
+
     const categories = [
       { name: 'SUV', str_code: 'SUV', active: true },
       { name: 'Sedán', str_code: 'SED', active: true },
@@ -39,6 +45,9 @@ export class SeedService {
   }
 
   async seedStatus() {
+    const count = await this.statusRepo.count();
+    if (count > 0) return;
+
     const status = [
       { name: 'Disponible', str_code: 'available', active: true },
       { name: 'Reservado', str_code: 'reserved', active: true },
@@ -48,6 +57,9 @@ export class SeedService {
   }
 
   async seedEngineTypes() {
+    const count = await this.engineTypeRepo.count();
+    if (count > 0) return;
+
     const engineTypes = [
       { name: 'Gasolina', str_code: 'GAS', active: true },
       { name: 'Diésel', str_code: 'DIE', active: true },
@@ -57,6 +69,9 @@ export class SeedService {
   }
 
   async seedTransmissions() {
+    const count = await this.transmissionRepo.count();
+    if (count > 0) return;
+
     const transmissions = [
       { name: 'Manual', str_code: 'MAN', active: true },
       { name: 'Automática', str_code: 'AUT', active: true },
@@ -65,6 +80,9 @@ export class SeedService {
   }
 
   async seedTypes() {
+    const count = await this.typeRepo.count();
+    if (count > 0) return;
+
     const types = [
       { name: 'Particular', str_code: 'PAR', active: true },
       { name: 'Carga', str_code: 'CAR', active: true },

@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
-console.log('Cargando configuración de la base de datos desde variables de entorno...');
-console.log(process.env);
+import { config } from 'dotenv';
+
+config();
 
 function requireEnv(key: string): string {
   const value = process.env[key];
@@ -16,9 +17,9 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   host: requireEnv('DB_HOST'),
   port: parseInt(requireEnv('DB_PORT'), 10),
-  username: requireEnv('DB_USERNAME'),
-  password: requireEnv('DB_PASSWORD'),
-  database: requireEnv('DB_DATABASE'),
+  username: process.env.DB_USERNAME || requireEnv('DB_USER'),
+  password: process.env.PGPASSWORD || requireEnv('DB_PASSWORD'),
+  database: process.env.DB_DATABASE || requireEnv('DB_NAME'),
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
 });

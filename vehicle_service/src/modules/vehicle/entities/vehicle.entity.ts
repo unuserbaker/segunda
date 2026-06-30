@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 import { EngineType } from './engine_type.entity';
@@ -38,10 +46,22 @@ export class Vehicle {
   @Column({ nullable: true })
   status_id!: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'uuid', nullable: true })
+  seller_id!: string;
+
+  @Column({ nullable: true })
+  year!: number;
+
+  @Column({ nullable: true, length: 50 })
+  color!: string;
+
+  @Column({ nullable: true, type: 'text' })
+  description!: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at!: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at!: Date;
 
   @ManyToOne(() => Brand, (brand) => brand.vehicles)
