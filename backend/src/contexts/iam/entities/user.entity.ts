@@ -20,6 +20,9 @@ export class User {
   @Column({ default: true })
   active!: boolean;
 
+  @Column({ type: 'timestamptz', nullable: true })
+  email_verified_at!: Date | null;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at!: Date;
 
