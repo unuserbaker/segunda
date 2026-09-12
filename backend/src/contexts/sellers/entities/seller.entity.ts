@@ -20,6 +20,12 @@ export class Seller {
   @Column({ default: false })
   verified!: boolean;
 
+  @Column({ type: 'uuid', nullable: true })
+  verified_by!: string | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  verified_at!: Date | null;
+
   @Column('decimal', { precision: 2, scale: 1, default: 0 })
   rating!: number;
 
