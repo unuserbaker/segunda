@@ -12,11 +12,15 @@ import { EngineType } from './entities/engine_type.entity';
 import { Transmission } from './entities/transmission.entity';
 import { Type } from './entities/type.entity';
 import { Status } from './entities/status.entity';
+import { FilesModule } from '../files/files.module';
+import { SellersModule } from '../sellers/sellers.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Vehicle, Brand, Category, EngineType, Transmission, Type, Status]),
     SeedModule,
+    FilesModule,
+    SellersModule,
   ],
   controllers: [VehicleController, ReferenceController],
   providers: [VehicleService, ReferenceService],

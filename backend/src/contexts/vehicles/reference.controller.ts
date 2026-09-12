@@ -1,8 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ReferenceService } from './reference.service';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { Public } from '../../common/decorators/public.decorator';
 
 @Controller()
+@Public()
 export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
 

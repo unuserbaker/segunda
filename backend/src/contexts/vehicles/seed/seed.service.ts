@@ -39,12 +39,16 @@ export class SeedService {
   }
 
   async seedStatus() {
-    if (await this.statusRepo.count()) return;
-    await this.statusRepo.save([
+    const defaults = [
       { name: 'Disponible', str_code: 'available', active: true },
       { name: 'Reservado', str_code: 'reserved', active: true },
       { name: 'Vendido', str_code: 'sold', active: true },
-    ]);
+      { name: 'Con cita activa', str_code: 'active_appointment', active: true },
+    ];
+    for (const s of defaults) {
+      const exists = await this.statusRepo.findOneBy({ str_code: s.str_code });
+      if (!exists) await this.statusRepo.save(s);
+    }
   }
 
   async seedEngineTypes() {
