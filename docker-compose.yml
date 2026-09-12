@@ -21,7 +21,7 @@ services:
       DB_USERNAME: backend_user
       DB_PASSWORD: backend_pass
       DB_DATABASE: backend_db
-      JWT_SECRET: ${JWT_SECRET:-segunda-jwt-secret-prod}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET debe estar definido en el entorno}
       JWT_EXPIRES_IN: 7d
     depends_on:
       postgres:
