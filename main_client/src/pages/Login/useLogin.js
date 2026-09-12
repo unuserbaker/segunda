@@ -4,9 +4,9 @@ import { jwtDecode } from 'jwt-decode';
 import { useTransition } from '@react-spring/web';
 import * as Yup from 'Yup';
 import useMainApp from '@/shared/Hooks/useMainApp';
-import { decryptValue, eliminarDuplicadosPorClaves } from '@/utils/functions';
-
-// import useMainApp from '@/shared/Hooks/useMainApp';
+import { login } from '@/core/services/iam_service/auth.js';
+import { setLocaleStorageItems } from '@/utils/functions/localeStorage';
+import { LOCALSTORAGE_KEYS } from '@/utils/vars';
 
 const useLogin = () => {
 
@@ -47,35 +47,26 @@ const useLogin = () => {
     };
 
     const handleSubmit = async (values) => {
-        // console.log('soy el servicio de login');
-        // let lay,
-        //     message = null;
-        // try {
-        //     const dataSend = {
-        //         ...values,
-        //     };
-        //     const { record, message: respMessage } = await login(dataSend);
-        //     const tkn = record.tkn;
-        //     await localStorage.setItem('tkn', tkn);
-        //     const decryptedData = await decryptValue(tkn);
-        //     const decodedData = jwtDecode(decryptedData);
-        //     lay = decodedData.lay;
-        //     message = respMessage;
-        // } catch (error) {
-        //     handlePopUpToast(`${error?.message}`, 'error');
-        // } finally {
-        //     !!lay && navigate(`/${lay}/dashboard`);
-        navigate(`/admin/dashboard`);
-        //     !!message &&
-        setTimeout(
-            () =>
-                handlePopUpToast(
-                    'message',
-                    'success',
-                ),
-            500
-        );
-        // }
+        try {
+            const dataSend = {
+                email: values.email,
+                password: values.password,
+            };
+            const { record, message } = await login(dataSend);
+            const { token, user } = record;
+            setLocaleStorageItems({ key: LOCALSTORAGE_KEYS.token, value: token });
+            setLocaleStorageItems({ key: LOCALSTORAGE_KEYS.usuario, value: JSON.stringify(user) });
+            const decodedData = jwtDecode(token);
+            const role = decodedData.role;
+            handlePopUpToast(message ?? 'Sesión iniciada', 'success');
+            if (role === 'seller') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
+            }
+        } catch (error) {
+            handlePopUpToast(`${error?.message}`, 'error');
+        }
     };
 
     const transitions = useTransition(index, {

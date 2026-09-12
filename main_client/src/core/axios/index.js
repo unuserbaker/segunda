@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Config from '../config';
 import { LOCALSTORAGE_KEYS } from '@/utils/vars';
+
 export const getheadersConf = () => {
+  const token = localStorage.getItem(LOCALSTORAGE_KEYS['token']);
   return {
     'Content-Type': 'application/json',
-    Authorization: Config.authorization,
-    tk: localStorage.getItem(LOCALSTORAGE_KEYS['token']),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 };
 
@@ -14,11 +15,21 @@ export const axiosService = axios.create({
   headers: getheadersConf(),
 });
 
+axiosService.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      localStorage.removeItem(LOCALSTORAGE_KEYS['token']);
+      localStorage.removeItem(LOCALSTORAGE_KEYS['usuario']);
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const axiosFilesService = axios.create({
   baseURL: Config.baseUrl,
-  headers: {
-    Authorization: Config.authorization,
-  },
+  headers: getheadersConf(),
 });
 
 /**
@@ -39,8 +50,8 @@ export const request = async ({ url, data }, method = 'get') => {
 export const requestFiles = async ({ url, data }) => {
   return await axiosFilesService.post(url, data, {
     headers: {
+      ...getheadersConf(),
       'Content-Type': 'multipart/form-data',
-      tk: localStorage.getItem(LOCALSTORAGE_KEYS['token']),
     },
   });
 };

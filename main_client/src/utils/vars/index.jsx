@@ -5,6 +5,7 @@ export const MODULOS_ADMIN = {
 
 export const ROUTE_IDS = {
     LOGIN: 'login',
+    REGISTER: 'register',
     USER: 'userData',
     ADMIN: 'admin',
 };

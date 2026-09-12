@@ -1,11 +1,11 @@
 const API_VEHICLES = {
-  VEHICLES: { GET_VEHICLES: 'vehicles/vehicles', POST_VEHICLES_CREATE: 'vehicles/vehicles/', PUT_VEHICLES_UPDATE: (idVehicle) => `vehicles/vehicles/${idVehicle}` },
-  TYPES: { GET_TYPES: 'vehicles/types' },
-  TRANSMISSIONS: { GET_TRANSMISSIONS: '/vehicles/transmissions' },
-  CATEGORIES: { GET_CATEGORIES: '/vehicles/categories' },
-  BRANDS: { GET_BRANDS: '/vehicles/brands' },
-  ENGINE_TYPES: { GET_ENGINE_TYPES: '/vehicles/engine_types' },
-  STATUS: { GET_SATUS: '/vehicles/status' },
+  VEHICLES: { GET_VEHICLES: 'vehicles', POST_VEHICLES_CREATE: 'vehicles', PUT_VEHICLES_UPDATE: (idVehicle) => `vehicles/${idVehicle}` },
+  TYPES: { GET_TYPES: 'types' },
+  TRANSMISSIONS: { GET_TRANSMISSIONS: 'transmissions' },
+  CATEGORIES: { GET_CATEGORIES: 'categories' },
+  BRANDS: { GET_BRANDS: 'brands' },
+  ENGINE_TYPES: { GET_ENGINE_TYPES: 'engine_types' },
+  STATUS: { GET_SATUS: 'status' },
 };
 
 export default API_VEHICLES;

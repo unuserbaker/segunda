@@ -14,8 +14,8 @@ import { getInfoTokenUserLogged } from '@/utils/functions';
 export const loader = async () => {
     const tkn = await getInfoTokenUserLogged();
     if (tkn) {
-        const { lay } = tkn;
-        return redirect(`/${lay}/dashboard`);
+        const { role } = tkn;
+        return redirect(role === 'seller' ? '/admin/dashboard' : '/');
     }
     return json({
         colors: {
@@ -110,7 +110,7 @@ const LoginPage = () => {
                                                     margin="normal"
                                                     fullWidth
                                                     name="password"
-                                                    value={values.contrasenna}
+                                                    value={values.password}
                                                     onChange={handleChange}
                                                     label="Contraseña"
                                                     type={showPassword ? 'text' : 'password'}
@@ -146,7 +146,7 @@ const LoginPage = () => {
                                                     }}
                                                 />
                                                 <div className="error1">
-                                                    <ErrorMessage name="contrasenna" />
+                                                    <ErrorMessage name="password" />
                                                 </div>
                                             </Grid>
                                         </Grid>
@@ -160,7 +160,7 @@ const LoginPage = () => {
                                                     fullWidth={true}
                                                     type={'button'}
                                                     onClick={async () =>
-                                                        await handleSubmit()
+                                                        await handleSubmit(values)
                                                     }
                                                 >
                                                     Iniciar Sesión

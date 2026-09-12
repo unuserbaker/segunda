@@ -5,6 +5,7 @@ import ErrorPage from '@P/Error/index.jsx';
 import HomePage from '@P/Home/index.jsx';
 
 import LoginPage, { loader } from '@P/Login/index.jsx';
+import RegisterPage, { loader as registerLoader } from '@P/Register/index.jsx';
 
 import LoadingComponent from '@C/Loading/index.jsx';
 
@@ -47,6 +48,12 @@ const landingRoutes = {
             path: '/login',
             loader: loader,
             element: <LoginPage />,
+        },
+        {
+            id: ROUTE_IDS.REGISTER,
+            path: '/register',
+            loader: registerLoader,
+            element: <RegisterPage />,
         },
         {
             path: '/',

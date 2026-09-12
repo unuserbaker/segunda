@@ -33,8 +33,11 @@ export const decryptValue = async (enncriptedValue) => {
 export const getInfoTokenUserLogged = async () => {
   const tknLoc = localStorage.getItem(LOCALSTORAGE_KEYS.token);
   if (!tknLoc) return false;
-  const decriptTknLoc = await decryptValue(tknLoc);
-  return jwtDecode(decriptTknLoc);
+  try {
+    return jwtDecode(tknLoc);
+  } catch (error) {
+    return false;
+  }
 };
 
 export const throwErrorPage = (error) => {
