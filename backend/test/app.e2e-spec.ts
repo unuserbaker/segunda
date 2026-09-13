@@ -235,6 +235,94 @@ describe('App e2e (vehicles / sellers / internal staff)', () => {
     });
   });
 
+  describe('POST /auth/register — tax_id duplicado (Bug 1)', () => {
+    it('dos sellers con el mismo tax_id → el segundo da 409 y solo queda 1 fila en DB', async () => {
+      const suffix = Date.now();
+      const sharedTaxId = `TAX-TEST-FIX-${suffix}`;
+
+      const first = await request(app.getHttpServer()).post('/auth/register').send({
+        email: `qa-dup-tax-1-${suffix}@test.com`,
+        password: 'Password123',
+        name: 'QA Dup Tax One',
+        role: 'seller',
+        business_name: 'QA Dup Tax Biz One',
+        tax_id: sharedTaxId,
+        phone: '3000000001',
+      });
+      expect(first.status).toBe(201);
+      expect(first.body.record?.seller?.tax_id).toBe(sharedTaxId);
+      createdUserIds.push(first.body.record.user.id);
+      const firstSeller = await sellerRepo.findOne({ where: { user_id: first.body.record.user.id } });
+      expect(firstSeller).not.toBeNull();
+      createdSellerIds.push(firstSeller!.id);
+
+      const second = await request(app.getHttpServer()).post('/auth/register').send({
+        email: `qa-dup-tax-2-${suffix}@test.com`,
+        password: 'Password123',
+        name: 'QA Dup Tax Two',
+        role: 'seller',
+        business_name: 'QA Dup Tax Biz Two',
+        tax_id: sharedTaxId,
+        phone: '3000000002',
+      });
+      expect(second.status).toBe(409);
+      expect(second.body.errors?.message).toBeDefined();
+
+      // el usuario del segundo intento se crea antes del rollback de la transacción del
+      // seller, pero el rollback debe revertir también la creación de ese user porque
+      // ambos ocurren dentro de la misma transacción (ver auth.service.ts).
+      const secondUser = await userRepo.findOne({
+        where: { email: `qa-dup-tax-2-${suffix}@test.com` },
+      });
+      expect(secondUser).toBeNull();
+
+      const rowsWithSharedTaxId = await sellerRepo.count({ where: { tax_id: sharedTaxId } });
+      expect(rowsWithSharedTaxId).toBe(1);
+    });
+  });
+
+  describe('GET /sellers/me (Bug 2 — no debe duplicar el envoltorio message/record)', () => {
+    it('devuelve { message, record } una sola vez, no anidado', async () => {
+      const suffix = Date.now();
+      const hashed = await bcrypt.hash('Password123', 10);
+      const meUser = await userRepo.save(
+        userRepo.create({
+          email: `qa-seller-me-${suffix}@test.com`,
+          password: hashed,
+          name: 'QA Seller Me',
+          role: 'buyer',
+        }),
+      );
+      createdUserIds.push(meUser.id);
+      const meSeller = await sellerRepo.save(
+        sellerRepo.create({
+          user_id: meUser.id,
+          business_name: `QA Seller Me Biz ${suffix}`,
+          verified: false,
+        }),
+      );
+      createdSellerIds.push(meSeller.id);
+
+      const meToken = await (async () => {
+        const res = await request(app.getHttpServer())
+          .post('/auth/login')
+          .send({ email: meUser.email, password: 'Password123' });
+        return res.body.record.token as string;
+      })();
+
+      const res = await request(app.getHttpServer())
+        .get('/sellers/me')
+        .set('Authorization', `Bearer ${meToken}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBeDefined();
+      expect(res.body.record).toBeDefined();
+      expect(res.body.record.record).toBeUndefined();
+      expect(res.body.record.id).toBe(meSeller.id);
+      expect(res.body.record.business_name).toBe(meSeller.business_name);
+    });
+  });
+
   describe('PATCH /sellers/:id/verify', () => {
     it('rol operador → 403', async () => {
       const res = await request(app.getHttpServer())

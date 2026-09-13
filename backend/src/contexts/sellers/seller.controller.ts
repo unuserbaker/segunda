@@ -17,17 +17,14 @@ export class SellerController {
       throw new NotFoundException('No tienes un perfil de seller');
     }
     return {
-      message: 'Perfil de seller',
-      record: {
-        id: seller.id,
-        business_name: seller.business_name,
-        tax_id: seller.tax_id,
-        phone: seller.phone,
-        verified: seller.verified,
-        verified_at: seller.verified_at,
-        rating: seller.rating,
-        total_sales: seller.total_sales,
-      },
+      id: seller.id,
+      business_name: seller.business_name,
+      tax_id: seller.tax_id,
+      phone: seller.phone,
+      verified: seller.verified,
+      verified_at: seller.verified_at,
+      rating: seller.rating,
+      total_sales: seller.total_sales,
     };
   }
 

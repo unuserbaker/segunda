@@ -11,7 +11,7 @@ export class Seller {
   @Column({ length: 200 })
   business_name!: string;
 
-  @Column({ length: 50, nullable: true })
+  @Column({ length: 50, nullable: true, unique: true })
   tax_id!: string;
 
   @Column({ length: 20, nullable: true })
