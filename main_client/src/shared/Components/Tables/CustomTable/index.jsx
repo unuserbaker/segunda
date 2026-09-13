@@ -56,39 +56,49 @@ function TableActionComponent({
       <Grid container spacing={2} sx={{ marginBottom: 0 }}>
         {headerButtons.map(
           (
-            { name, handleClick, color = 'success', disabled, loading },
+            {
+              name,
+              handleClick,
+              color = 'success',
+              disabled,
+              loading,
+              tooltip,
+            },
             index
-          ) =>
-            !disabled &&(
-              <Grid item key={`HB${index}-${uuidv4()}`}>
-                <Button
-                  sx={{ background: color }}
-                  disableFocusRipple
-                  disableTouchRipple
-                  disabled={disabled || !!loading}
-                  variant="contained"
-                  color={setColorsMui(color)}
-                  type="button"
-                  onClick={(e) =>
-                    handleClick(
-                      e,
-                      Object.entries(checkedItems)
-                        ?.filter((el) => !!el[1])
-                        .map((elem) => elem[0])
-                    )
-                  }
-                >
-                  {name}
-                  {loading && (
-                    <CircularProgress
-                      color="inherit"
-                      size={20}
-                      sx={{ marginLeft: 1 }}
-                    />
-                  )}
-                </Button>
-              </Grid>
-            )
+          ) => (
+            <Grid item key={`HB${index}-${uuidv4()}`}>
+              <Tooltip title={disabled && tooltip ? tooltip : ''}>
+                <span>
+                  <Button
+                    sx={{ background: color }}
+                    disableFocusRipple
+                    disableTouchRipple
+                    disabled={disabled || !!loading}
+                    variant="contained"
+                    color={setColorsMui(color)}
+                    type="button"
+                    onClick={(e) =>
+                      handleClick(
+                        e,
+                        Object.entries(checkedItems)
+                          ?.filter((el) => !!el[1])
+                          .map((elem) => elem[0])
+                      )
+                    }
+                  >
+                    {name}
+                    {loading && (
+                      <CircularProgress
+                        color="inherit"
+                        size={20}
+                        sx={{ marginLeft: 1 }}
+                      />
+                    )}
+                  </Button>
+                </span>
+              </Tooltip>
+            </Grid>
+          )
         )}
       </Grid>
       {inputFilter && !!tableBodyData?.length && (
