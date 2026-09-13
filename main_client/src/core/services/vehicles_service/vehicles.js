@@ -1,13 +1,12 @@
 import API_VEHICLES from '@/core/api/vehicles_api.js';
 import { request } from '@/core/axios';
 
-export const getVehicles = async () => {
+export const getVehicles = async (params = {}) => {
   try {
-    console.log('Obteniendo vehículos...');
     const { data } = await request({
       url: API_VEHICLES.VEHICLES.GET_VEHICLES,
+      data: { params },
     });
-    console.log('Vehículos obtenidos:', data);
     return data;
   } catch (error) {
     throw {
@@ -16,6 +15,7 @@ export const getVehicles = async () => {
     };
   }
 };
+
 
 export const createVehicle = async (dataSend) => {
   try {
