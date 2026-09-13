@@ -7,12 +7,20 @@ import {
     InputAdornment,
     IconButton,
     Grid,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import BusinessIcon from '@mui/icons-material/Business';
+import PhoneIcon from '@mui/icons-material/Phone';
+import BadgeIcon from '@mui/icons-material/Badge';
 import CustomButton from '@/shared/Components/Inputs/CustomButton/index.jsx';
 import LoadingComponent from '@C/Loading/index.jsx';
 import useRegister from './useRegister.js';
@@ -99,6 +107,31 @@ const RegisterPage = () => {
                                         <Form>
                                             <Grid container spacing={2}>
                                                 <Grid item xs={12} md={12}>
+                                                    <FormControl>
+                                                        <FormLabel id="role-label">
+                                                            Quiero registrarme como
+                                                        </FormLabel>
+                                                        <RadioGroup
+                                                            row
+                                                            aria-labelledby="role-label"
+                                                            name="role"
+                                                            value={values.role}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <FormControlLabel
+                                                                value="buyer"
+                                                                control={<Radio />}
+                                                                label="Comprador"
+                                                            />
+                                                            <FormControlLabel
+                                                                value="seller"
+                                                                control={<Radio />}
+                                                                label="Vendedor / Concesionaria"
+                                                            />
+                                                        </RadioGroup>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12} md={12}>
                                                     <TextField
                                                         fullWidth
                                                         id="name"
@@ -139,6 +172,70 @@ const RegisterPage = () => {
                                                         <ErrorMessage name="email" />
                                                     </div>
                                                 </Grid>
+                                                {values.role === 'seller' && (
+                                                    <>
+                                                        <Grid item xs={12} md={12}>
+                                                            <TextField
+                                                                fullWidth
+                                                                id="businessName"
+                                                                label="Razón social"
+                                                                name="businessName"
+                                                                value={values.businessName}
+                                                                onChange={handleChange}
+                                                                InputProps={{
+                                                                    startAdornment: (
+                                                                        <InputAdornment position="start">
+                                                                            <BusinessIcon style={{ color: '#242629' }} />
+                                                                        </InputAdornment>
+                                                                    ),
+                                                                }}
+                                                            />
+                                                            <div className="error1" style={{ width: '100%' }}>
+                                                                <ErrorMessage name="businessName" />
+                                                            </div>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={12}>
+                                                            <TextField
+                                                                fullWidth
+                                                                id="taxId"
+                                                                label="NIT / RUT"
+                                                                name="taxId"
+                                                                value={values.taxId}
+                                                                onChange={handleChange}
+                                                                InputProps={{
+                                                                    startAdornment: (
+                                                                        <InputAdornment position="start">
+                                                                            <BadgeIcon style={{ color: '#242629' }} />
+                                                                        </InputAdornment>
+                                                                    ),
+                                                                }}
+                                                            />
+                                                            <div className="error1" style={{ width: '100%' }}>
+                                                                <ErrorMessage name="taxId" />
+                                                            </div>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={12}>
+                                                            <TextField
+                                                                fullWidth
+                                                                id="phone"
+                                                                label="Teléfono"
+                                                                name="phone"
+                                                                value={values.phone}
+                                                                onChange={handleChange}
+                                                                InputProps={{
+                                                                    startAdornment: (
+                                                                        <InputAdornment position="start">
+                                                                            <PhoneIcon style={{ color: '#242629' }} />
+                                                                        </InputAdornment>
+                                                                    ),
+                                                                }}
+                                                            />
+                                                            <div className="error1" style={{ width: '100%' }}>
+                                                                <ErrorMessage name="phone" />
+                                                            </div>
+                                                        </Grid>
+                                                    </>
+                                                )}
                                                 <Grid item xs={12} md={12}>
                                                     <TextField
                                                         margin="normal"
@@ -236,6 +333,10 @@ const RegisterPage = () => {
                                                             !values.email ||
                                                             !values.password ||
                                                             !values.confirmPassword ||
+                                                            (values.role === 'seller' &&
+                                                                (!values.businessName ||
+                                                                    !values.taxId ||
+                                                                    !values.phone)) ||
                                                             isSubmitting
                                                         }
                                                         submitting={isSubmitting}

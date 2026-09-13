@@ -17,6 +17,10 @@ const useRegister = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        role: 'buyer',
+        businessName: '',
+        taxId: '',
+        phone: '',
     };
 
     const validationSchemaRegisterForm = Yup.object().shape({
@@ -30,6 +34,22 @@ const useRegister = () => {
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden')
             .required('La confirmación de contraseña es requerida'),
+        role: Yup.string().oneOf(['buyer', 'seller']).required('El rol es requerido'),
+        businessName: Yup.string().when('role', {
+            is: 'seller',
+            then: (schema) => schema.required('La razón social es requerida'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+        taxId: Yup.string().when('role', {
+            is: 'seller',
+            then: (schema) => schema.required('El NIT/RUT es requerido'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+        phone: Yup.string().when('role', {
+            is: 'seller',
+            then: (schema) => schema.required('El teléfono es requerido'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
     });
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -46,6 +66,14 @@ const useRegister = () => {
                 name: values.name,
                 email: values.email,
                 password: values.password,
+                role: values.role,
+                ...(values.role === 'seller'
+                    ? {
+                          business_name: values.businessName,
+                          tax_id: values.taxId,
+                          phone: values.phone,
+                      }
+                    : {}),
             };
             const { message } = await register(dataSend);
             setRegisteredSuccessfully(true);
