@@ -1,5 +1,10 @@
 const API_VEHICLES = {
-  VEHICLES: { GET_VEHICLES: 'vehicles', POST_VEHICLES_CREATE: 'vehicles', PUT_VEHICLES_UPDATE: (idVehicle) => `vehicles/${idVehicle}` },
+  VEHICLES: {
+    GET_VEHICLES: 'vehicles',
+    GET_VEHICLE_DETAIL: (idVehicle) => `vehicles/${idVehicle}`,
+    POST_VEHICLES_CREATE: 'vehicles',
+    PUT_VEHICLES_UPDATE: (idVehicle) => `vehicles/${idVehicle}`,
+  },
   TYPES: { GET_TYPES: 'types' },
   TRANSMISSIONS: { GET_TRANSMISSIONS: 'transmissions' },
   CATEGORIES: { GET_CATEGORIES: 'categories' },

@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 import adminRoutes from './admin';
 import ErrorPage from '@P/Error/index.jsx';
 import HomePage from '@P/Home/index.jsx';
+import VehicleDetailPage from '@P/VehicleDetail/index.jsx';
 
 import LoginPage, { loader } from '@P/Login/index.jsx';
 import RegisterPage, { loader as registerLoader } from '@P/Register/index.jsx';
@@ -26,6 +27,10 @@ const landingRoutes = {
             index: true,
             path: '/home',
             element: <HomePage />,
+        },
+        {
+            path: '/vehiculo/:id',
+            element: <VehicleDetailPage />,
         },
         // {
         //     path: '/inventory',

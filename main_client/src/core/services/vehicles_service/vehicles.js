@@ -17,6 +17,20 @@ export const getVehicles = async (params = {}) => {
 };
 
 
+export const getVehicle = async (id) => {
+  try {
+    const { data } = await request({
+      url: API_VEHICLES.VEHICLES.GET_VEHICLE_DETAIL(id),
+    });
+    return data;
+  } catch (error) {
+    throw {
+      message: error['response']['data']['errors']['message'],
+      status: error['response']['status'],
+    };
+  }
+};
+
 export const createVehicle = async (dataSend) => {
   try {
     const { data } = await request(

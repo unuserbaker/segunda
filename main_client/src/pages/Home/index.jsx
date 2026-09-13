@@ -16,7 +16,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
+import VehicleStatusBadge from '@/shared/Components/Others/VehicleStatusBadge.jsx';
 import useVehiclesCatalog from './useVehiclesCatalog.js';
 
 const PLACEHOLDER_IMAGE = '/img/bmw-gris.jpeg';
@@ -28,6 +30,7 @@ const formatPrice = (price) => {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const {
     vehicles,
     brands,
@@ -205,9 +208,7 @@ const HomePage = () => {
                         <Typography variant="h6" sx={{ fontWeight: 700 }}>
                           {vehicle.brand?.name ?? 'Marca'} {vehicle.category?.name ?? ''}
                         </Typography>
-                        {vehicle.status?.str_code === 'active_appointment' && (
-                          <Chip label="Próxima visita agendada" color="warning" size="small" />
-                        )}
+                        <VehicleStatusBadge status={vehicle.status} />
                       </Stack>
                       <Typography variant="subtitle1" color="primary" sx={{ fontWeight: 700, mb: 1 }}>
                         {formatPrice(vehicle.price)}
@@ -231,7 +232,7 @@ const HomePage = () => {
                       </Typography>
                     </CardContent>
                     <CardActions sx={{ px: 2, pb: 2 }}>
-                      <Button variant="contained" size="small">
+                      <Button variant="contained" size="small" onClick={() => navigate(`/vehiculo/${vehicle.id}`)}>
                         Ver detalle
                       </Button>
                       <Button size="small" disabled>
