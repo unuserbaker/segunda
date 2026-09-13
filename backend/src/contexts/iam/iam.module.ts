@@ -13,6 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { User } from './entities/user.entity';
 import { InternalStaff } from './entities/internal-staff.entity';
 import { EmailVerification } from './entities/email-verification.entity';
+import { Seller } from '../sellers/entities/seller.entity';
 
 if (!process.env.JWT_SECRET) {
   throw new Error(
@@ -22,7 +23,7 @@ if (!process.env.JWT_SECRET) {
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, InternalStaff, EmailVerification]),
+    TypeOrmModule.forFeature([User, InternalStaff, EmailVerification, Seller]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,

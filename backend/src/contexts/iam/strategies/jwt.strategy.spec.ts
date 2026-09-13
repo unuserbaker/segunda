@@ -1,5 +1,6 @@
 import { JwtStrategy } from './jwt.strategy';
 import { InternalStaff } from '../entities/internal-staff.entity';
+import { Seller } from '../../sellers/entities/seller.entity';
 import { Repository } from 'typeorm';
 
 describe('JwtStrategy.validate', () => {
@@ -14,9 +15,10 @@ describe('JwtStrategy.validate', () => {
     process.env = OLD_ENV;
   });
 
-  function buildStrategy(findOneBy: jest.Mock) {
+  function buildStrategy(findOneBy: jest.Mock, sellerFindOneBy: jest.Mock = jest.fn().mockResolvedValue(null)) {
     const repo = { findOneBy } as unknown as Repository<InternalStaff>;
-    return new JwtStrategy(repo);
+    const sellerRepo = { findOneBy: sellerFindOneBy } as unknown as Repository<Seller>;
+    return new JwtStrategy(repo, sellerRepo);
   }
 
   const payload = { sub: 'user-123', email: 'user@test.com', role: 'buyer' };
@@ -34,6 +36,7 @@ describe('JwtStrategy.validate', () => {
       email: payload.email,
       role: payload.role,
       internalRole: 'admin',
+      sellerVerified: null,
     });
   });
 
@@ -68,5 +71,27 @@ describe('JwtStrategy.validate', () => {
     expect(result.userId).toBe(payload.sub);
     expect(result.email).toBe(payload.email);
     expect(result.role).toBe(payload.role);
+  });
+
+  it('resuelve sellerVerified cuando el payload.role es seller', async () => {
+    const findOneBy = jest.fn().mockResolvedValue(null);
+    const sellerFindOneBy = jest.fn().mockResolvedValue({ verified: true });
+    const strategy = buildStrategy(findOneBy, sellerFindOneBy);
+
+    const result = await strategy.validate({ ...payload, role: 'seller' });
+
+    expect(sellerFindOneBy).toHaveBeenCalledWith({ user_id: payload.sub });
+    expect(result.sellerVerified).toBe(true);
+  });
+
+  it('no consulta Seller ni resuelve sellerVerified cuando el payload.role no es seller', async () => {
+    const findOneBy = jest.fn().mockResolvedValue(null);
+    const sellerFindOneBy = jest.fn();
+    const strategy = buildStrategy(findOneBy, sellerFindOneBy);
+
+    const result = await strategy.validate(payload);
+
+    expect(sellerFindOneBy).not.toHaveBeenCalled();
+    expect(result.sellerVerified).toBeNull();
   });
 });

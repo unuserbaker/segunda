@@ -4,12 +4,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { InternalStaff } from '../entities/internal-staff.entity';
+import { Seller } from '../../sellers/entities/seller.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(InternalStaff)
     private readonly internalStaffRepo: Repository<InternalStaff>,
+    @InjectRepository(Seller)
+    private readonly sellerRepo: Repository<Seller>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -31,12 +34,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       active: true,
     });
 
+    const seller =
+      payload.role === 'seller'
+        ? await this.sellerRepo.findOneBy({ user_id: payload.sub })
+        : null;
+
     return {
       id: payload.sub,
       userId: payload.sub,
       email: payload.email,
       role: payload.role,
       internalRole: staff?.role ?? null,
+      sellerVerified: seller?.verified ?? null,
     };
   }
 }

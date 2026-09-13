@@ -1,9 +1,10 @@
 import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from './entities/user.entity';
+import { Seller } from '../sellers/entities/seller.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -12,6 +13,8 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -22,17 +25,62 @@ export class AuthService {
     }
 
     const hashed = await bcrypt.hash(dto.password, 10);
-    const user = this.userRepo.create({
-      email: dto.email,
-      password: hashed,
-      name: dto.name,
-      role: dto.role || 'buyer',
-    });
+    const role = dto.role || 'buyer';
 
-    const saved = await this.userRepo.save(user);
-    const token = this.jwtService.sign({ sub: saved.id, email: saved.email, role: saved.role });
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    return { token, user: { id: saved.id, email: saved.email, name: saved.name, role: saved.role } };
+    let user: User;
+    let seller: Seller | undefined;
+    try {
+      const userRepo = queryRunner.manager.getRepository(User);
+      user = userRepo.create({
+        email: dto.email,
+        password: hashed,
+        name: dto.name,
+        role,
+      });
+      user = await userRepo.save(user);
+
+      if (role === 'seller') {
+        const sellerRepo = queryRunner.manager.getRepository(Seller);
+        seller = sellerRepo.create({
+          user_id: user.id,
+          business_name: dto.business_name,
+          tax_id: dto.tax_id,
+          phone: dto.phone,
+          verified: false,
+        });
+        seller = await sellerRepo.save(seller);
+      }
+
+      await queryRunner.commitTransaction();
+    } catch (err: any) {
+      await queryRunner.rollbackTransaction();
+      if (err?.code === '23505' && String(err?.detail || '').includes('tax_id')) {
+        throw new ConflictException('Ya existe una concesionaria registrada con este NIT');
+      }
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+
+    const token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role });
+
+    return {
+      token,
+      user: { id: user.id, email: user.email, name: user.name, role: user.role },
+      seller: seller
+        ? {
+            id: seller.id,
+            business_name: seller.business_name,
+            tax_id: seller.tax_id,
+            phone: seller.phone,
+            verified: seller.verified,
+          }
+        : undefined,
+    };
   }
 
   async login(dto: LoginDto) {

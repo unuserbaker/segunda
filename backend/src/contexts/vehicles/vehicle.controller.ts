@@ -20,6 +20,7 @@ import type { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { VehicleFilterDto } from './dto/vehicle-filter.dto';
 import { Public } from '../../common/decorators/public.decorator';
 import { JwtAuthGuard } from '../iam/guards/jwt-auth.guard';
+import { SellerVerifiedGuard } from '../../common/guards/seller-verified.guard';
 
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
@@ -49,6 +50,7 @@ export class VehicleController {
   }
 
   @Post()
+  @UseGuards(SellerVerifiedGuard)
   create(@Body() dto: CreateVehicleDto) {
     return this.vehicleService.create(dto);
   }

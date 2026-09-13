@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Param, Query, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Patch, Param, Query, UseGuards, Req, NotFoundException } from '@nestjs/common';
 import { SellerService } from './seller.service';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { JwtAuthGuard } from '../iam/guards/jwt-auth.guard';
@@ -9,6 +9,27 @@ import { InternalRoles } from '../../common/decorators/internal-roles.decorator'
 @UseGuards(JwtAuthGuard, InternalRolesGuard)
 export class SellerController {
   constructor(private readonly sellerService: SellerService) {}
+
+  @Get('me')
+  async findMe(@Req() req: any) {
+    const seller = await this.sellerService.findByUserId(req.user?.userId);
+    if (!seller) {
+      throw new NotFoundException('No tienes un perfil de seller');
+    }
+    return {
+      message: 'Perfil de seller',
+      record: {
+        id: seller.id,
+        business_name: seller.business_name,
+        tax_id: seller.tax_id,
+        phone: seller.phone,
+        verified: seller.verified,
+        verified_at: seller.verified_at,
+        rating: seller.rating,
+        total_sales: seller.total_sales,
+      },
+    };
+  }
 
   @InternalRoles('admin', 'asesor', 'operador')
   @Get()
