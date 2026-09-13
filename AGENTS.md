@@ -32,6 +32,61 @@ Each TypeORM entity has `@Entity({ schema: '...' })`.
 
 Legacy `vehicles_service` uses its own schema config (`config.schemaOne`, default `public`).
 
+### Working with migrations while `synchronize: true` is active in dev
+
+In local dev, `DatabaseModule` runs with `synchronize: process.env.NODE_ENV !== 'production'`, so
+TypeORM auto-creates/alters tables from entities every time the app boots. This is convenient for
+day-to-day dev but it means the DB schema in your local Postgres can silently drift **ahead** of
+what the migrations in `src/migrations/` describe (e.g. `synchronize` creates `files.vehicle_photos`
+before anyone writes the matching migration). When that migration is later added and you try
+`npm run migration:run`, it fails with `relation "..." already exists` — TypeORM's migration
+runner has no idea `synchronize` already built that object.
+
+**Rule of thumb: migrations are the source of truth, `synchronize` is just a dev convenience.**
+Whenever you add a new migration, verify it can run cleanly against a schema that reflects only
+previously-run migrations (not whatever `synchronize` happens to have built locally).
+
+If `npm run migration:run` fails with "already exists" in your local dev DB:
+
+1. **Preferred (no data loss risk beyond your own local disposable dev data):** reset the 5
+   context schemas and re-run migrations from zero, then let the app reseed on next boot
+   (seeding is idempotent — see "Key conventions"). Only do this against your **local dev**
+   Postgres (`localhost:5433` container), never against a shared/staging DB, and only if you
+   don't have local data you care about (check row counts first: `iam.users`, `vehicles.vehicles`,
+   `sellers.sellers`, `scheduling.appointments`, `files.vehicle_photos`).
+
+   ```sql
+   -- run against your local dev DB only
+   DROP SCHEMA IF EXISTS iam CASCADE;
+   DROP SCHEMA IF EXISTS vehicles CASCADE;
+   DROP SCHEMA IF EXISTS sellers CASCADE;
+   DROP SCHEMA IF EXISTS scheduling CASCADE;
+   DROP SCHEMA IF EXISTS files CASCADE;
+   DROP TABLE IF EXISTS migrations; -- TypeORM's migration bookkeeping table, lives in public
+   ```
+
+   Then recreate the schemas (`backend/init-schemas.sql` or `CREATE SCHEMA iam; ...` for each) and
+   run `npm run migration:run`. Start the app afterwards so seed data repopulates.
+
+2. **Alternative (no reset, keep existing data):** if the objects `synchronize` already created are
+   byte-for-byte equivalent to what the migration would create (no new/renamed columns, same
+   constraint semantics), you can mark the migration as already applied without re-running its SQL
+   by inserting a row directly into the `migrations` table:
+
+   ```sql
+   INSERT INTO migrations (timestamp, name) VALUES (1789200000000, 'CreateVehiclePhotos1789200000000');
+   ```
+
+   Use this only as a last resort and only when you've manually confirmed the existing DB objects
+   match the migration exactly — otherwise you risk a schema that diverges from what migrations
+   describe (e.g. a migration that adds a `UNIQUE` constraint under one name silently no-ops while
+   `synchronize` already added an equivalent constraint under TypeORM's auto-generated name,
+   leaving two differently-named constraints on future clean installs vs. your machine).
+
+Before opening a PR with a new migration, it's good practice to sanity-check it against a clean
+schema (option 1) rather than assuming your local `synchronize`-built DB matches what a fresh
+`npm run migration:run` would produce on staging/prod (where `synchronize` is always `false`).
+
 ## Commands
 
 ```bash
