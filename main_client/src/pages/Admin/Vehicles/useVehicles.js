@@ -7,6 +7,8 @@ import {
 } from '@/core/services/vehicles_service/vehicles.js';
 import { useState } from 'react';
 import { useRouteLoaderData, useLoaderData } from 'react-router-dom';
+import useSellerVerification from '@/shared/Hooks/useSellerVerification.js';
+import useMainApp from '@/shared/Hooks/useMainApp';
 
 const formatVehiclesData = (vehicles = []) => {
   return vehicles.map((vehicle) => ({
@@ -25,6 +27,8 @@ const useVehicles = () => {
     engineTypes,
   } = useLoaderData();
   const { colors } = useRouteLoaderData(ROUTE_IDS.ADMIN);
+  const { handlePopUpToast } = useMainApp();
+  const { isSellerUnverified } = useSellerVerification();
 
   const [modalShow, setModalShow] = useState(null);
   const [vehicle, setVehicle] = useState(null);
@@ -36,8 +40,10 @@ const useVehicles = () => {
 
   const handleListVehicles = async () => {
     try {
-      const { record } = await getVehicles();
-      setVehicleList(formatVehiclesData(record.rows));
+      // GET /vehicles devuelve el shape de paginación directamente
+      // { currentPage, limit, totalPages, totalItems, rows }, no envuelto en `record`.
+      const { rows } = await getVehicles();
+      setVehicleList(formatVehiclesData(rows));
     } catch (error) {
       console.log(error?.message, 'error');
     }
@@ -48,7 +54,14 @@ const useVehicles = () => {
       await handleListVehicles(); // 🔄 Refrescar lista
       handleModal(null); // Cerrar modal
     } catch (error) {
-      console.error('Error creando vehículo:', error.message);
+      if (error?.status === 403) {
+        handlePopUpToast(
+          'Tu cuenta de concesionaria aún no ha sido verificada, no puedes publicar vehículos todavía',
+          'error'
+        );
+      } else {
+        handlePopUpToast(error?.message ?? 'Error creando vehículo', 'error');
+      }
     }
   };
 
@@ -58,7 +71,7 @@ const useVehicles = () => {
       await handleListVehicles(); // 🔄 Refrescar lista
       handleModal(null);
     } catch (error) {
-      console.error('Error editando vehículo:', error.message);
+      handlePopUpToast(error?.message ?? 'Error editando vehículo', 'error');
     }
   };
 
@@ -83,7 +96,10 @@ const useVehicles = () => {
       name: 'Crear Vehiculo',
       handleClick: () => handleModal('vehiculo-crear'),
       color: 'primary',
-      disabled: false,
+      disabled: isSellerUnverified,
+      tooltip: isSellerUnverified
+        ? 'Tu cuenta de concesionaria aún no ha sido verificada, no puedes publicar vehículos todavía'
+        : '',
     },
   ];
 

@@ -35,13 +35,16 @@ export const loader = async () => {
       getEngineTypes(),
     ]);
 
-    const vehicles = vehiclesResponse.record.rows;
-    const types = typesResponse.record.rows;
-    const transmissions = transmissionsResponse.record.rows;
-    const categories = categoriesResponse.record.rows;
-    const brands = brandsResponse.record.rows;
-    const status = statusResponse.record.rows;
-    const engineTypes = engineTypesResponse.record.rows;
+    // GET /vehicles y catálogos de referencia devuelven el shape de paginación
+    // { currentPage, limit, totalPages, totalItems, rows } directamente
+    // (no envuelto en `record`, a diferencia de otros endpoints del backend nuevo).
+    const vehicles = vehiclesResponse.rows;
+    const types = typesResponse.rows;
+    const transmissions = transmissionsResponse.rows;
+    const categories = categoriesResponse.rows;
+    const brands = brandsResponse.rows;
+    const status = statusResponse.rows;
+    const engineTypes = engineTypesResponse.rows;
 
     return json({
       vehicles,
